@@ -91,6 +91,8 @@ class StreamReader:
                     # print(lines[line])
                     if '~' in lines[line]:
                         continue
+                    if '[' in lines[line]:
+                        continue
                     if lines[line] == '\n':
                         continue
                     else:
