@@ -65,10 +65,8 @@ class StreamReader:
                 new_data.station = hd[1]
                 new_data.channel = hd[2]
                 new_data.network = hd[3]
-                if float(hd[4]) == 7.8125:
-                    new_data.sampling_rate = float(128)  # bug fix for reading 128 sample rate
-                else:
-                    new_data.sampling_rate = float(hd[4])  # set sampling rate
+                calc_rate = 1000 / float(hd[4])  # calculate sampling rate from DIMAS's format
+                new_data.sampling_rate = float(calc_rate)  # set sampling rate
                 new_data.samples_count = int(hd[5])  # set total count of sample
 
             def create_stream(data):
