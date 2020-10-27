@@ -1,6 +1,7 @@
 import glob
 import os
 from pathlib import Path
+import re
 import time
 
 from obspy.signal.cross_correlation import correlation_detector
@@ -236,15 +237,26 @@ def file_parser(folder_path):
     Parse file list from selected data folder
     :return: list of founded file paths, list of founded file names
     """
+    extensions = ['asc']
+
     files_paths = []
-    for ext in ['asc']:
+    for ext in extensions:
         files_paths += glob.glob(folder_path + "/*." + ext)
     files_names = []
     for file in files_paths:
         ff = Path(file)
         files_names.append(os.path.basename(ff))
 
-    return files_paths, files_names
+    # sort file names by digits
+    files_names = sorted(files_names,
+                         key=lambda x: float(re.findall('(\d+)', x)[0]))
+
+    # recreate sorted file paths
+    files_paths = []
+    for file in files_names:
+        files_paths.append(os.path.join(folder_path, file))
+
+    return files_paths
 
 
 def main():
@@ -258,7 +270,7 @@ def main():
     dc = DrumCorr()
 
     dc.get_template(conf.param['template_file'])
-    file_paths, file_names = file_parser(conf.param['data_folder'])
+    file_paths = file_parser(conf.param['data_folder'])
     for file_index in range(len(file_paths)):
         t = time.process_time()
 
