@@ -1,3 +1,5 @@
+#!venv/bin/python
+
 import glob
 import os
 from pathlib import Path
@@ -256,7 +258,7 @@ def file_parser(folder_path):
     for file in files_names:
         files_paths.append(os.path.join(folder_path, file))
 
-    return files_paths
+    return files_paths, files_names
 
 
 def main():
@@ -270,7 +272,7 @@ def main():
     dc = DrumCorr()
 
     dc.get_template(conf.param['template_file'])
-    file_paths = file_parser(conf.param['data_folder'])
+    file_paths, file_names = file_parser(conf.param['data_folder'])
     for file_index in range(len(file_paths)):
         t = time.process_time()
 
