@@ -1,24 +1,36 @@
 import os
 import time
 
+from loguru import logger
+
 from lib.app import ConsoleApp
 from lib.core import DrumCorr
 from lib.files import file_parser
 from lib.ztools import JsonConfig
+from lib import strings
+import lib.logger as logger_lib
 
 
+@logger.catch
 def main():
     """
     Calculate cross-correlation for drum beats
     :return: Writes report file of cross-correlation function
     """
+    logger_lib.init_logger(strings.__project_name__)
 
+    logger.info(strings.Console.start_init)
     ca = ConsoleApp()
     conf = JsonConfig(ca.args.config)
     dc = DrumCorr()
+    logger.info(strings.Console.program_start)
 
+    logger.info(strings.Console.reading_template.format(
+        template=conf.param['template_file']))
     dc.get_template(conf.param['template_file'])
     file_paths, file_names = file_parser(conf.param['data_folder'])
+    logger.info(strings.Console.process_loaded_files.format(
+        count=len(file_names)))
     for file_index in range(len(file_paths)):
         t = time.process_time()
 
@@ -42,8 +54,7 @@ def main():
         report_name = dc.report.generate_report_name(report_format=conf.param['report_format'])
         report_path = os.path.join(conf.param['data_folder'], report_name)
         dc.report.report_to_file(out_file_name=report_path)  # export results to file
-
-        print('[+] File <{input_file}> report calculated, elapsed time: {elapsed_time}'.format(
+        logger.info(strings.Console.calc_file_finished.format(
             input_file=dc.report.current_file_name,
             elapsed_time=time.process_time() - t))
 
