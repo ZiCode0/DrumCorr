@@ -6,10 +6,10 @@ import time
 
 from obspy.signal.cross_correlation import correlation_detector
 
-from libs.app import ConsoleApp
-from libs.reader import StreamReader
-from libs.result_report import Report
-from libs.ztools import JsonConfig
+from lib.app import ConsoleApp
+from lib.reader import StreamReader
+from lib.result_report import Report
+from lib.ztools import JsonConfig
 
 
 class DrumCorr:
