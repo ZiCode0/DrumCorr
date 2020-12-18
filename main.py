@@ -270,7 +270,7 @@ def main():
     dc = DrumCorr()
 
     dc.get_template(conf.param['template_file'])
-    file_paths = file_parser(conf.param['data_folder'])
+    file_paths, file_names = file_parser(conf.param['data_folder'])
     for file_index in range(len(file_paths)):
         t = time.process_time()
 
