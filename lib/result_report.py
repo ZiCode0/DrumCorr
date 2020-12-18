@@ -19,7 +19,7 @@ class Report:
         self.sims = None
         self.times = None
 
-    def report_print(self):
+    def report_head(self):
         out = '''Drum Beats File <{file}> result:
 [*] First x-correlation:
 Beats count:\t\t\t{beats}
@@ -37,6 +37,9 @@ Maximum:
                                                             )
         return out
 
+    def report_print(self):
+        print(self.report_head())
+
     def report_to_file(self, out_file_name):
         """
         Writing report to file
@@ -45,7 +48,7 @@ Maximum:
         time_format = "%Y-%m-%dT%H:%M:%SZ.%f"
         with open(out_file_name, 'w+') as f:
             #  export header with results
-            f.write(self.report_print())
+            f.write(self.report_head())
 
             # write space
             f.write('\n\n')

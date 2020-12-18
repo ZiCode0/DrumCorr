@@ -1,5 +1,5 @@
 import sys
-from libs.reader import StreamReader
+from lib.reader import StreamReader
 
 sr = StreamReader()
 f = sr.read(sys.argv[1])
