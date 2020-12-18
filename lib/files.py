@@ -30,7 +30,6 @@ def file_parser(folder_path):
     :return: list of founded file paths, list of founded file names
     """
     extensions = ['asc']
-
     files_paths = []
     for ext in extensions:
         files_paths += glob.glob(folder_path + "/*." + ext)
