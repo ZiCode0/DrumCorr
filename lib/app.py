@@ -1,4 +1,5 @@
 import argparse
+from lib import strings
 
 
 class ConsoleApp:
@@ -6,7 +7,7 @@ class ConsoleApp:
         """
         Initial console app function
         """
-        self.app_name = 'DrumCorr'
+        self.app_name = strings.__project_name__
         self.app_version = 1.0
         self.author = 'ZiCode0'
         self.contacts = '[Telegram] @MrFantomz'
