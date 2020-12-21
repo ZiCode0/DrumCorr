@@ -39,8 +39,9 @@ def file_parser(folder_path):
         files_names.append(os.path.basename(ff))
 
     # sort file names by digits
-    files_names = sorted(files_names,
-                         key=lambda x: float(re.findall('(\d+)', x)[0]))
+    if len(files_names) > 1:
+        files_names = sorted(files_names,
+                             key=lambda x: float(re.findall('(\d+)', x)[0]))
 
     # recreate sorted file paths
     files_paths = []
