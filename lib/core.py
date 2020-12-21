@@ -1,3 +1,5 @@
+import math
+
 from obspy.signal.cross_correlation import correlation_detector
 from loguru import logger
 
@@ -89,7 +91,7 @@ class DrumCorr:
         approx_result = sum(approx_mass) / len(approx_mass)
         return approx_result
 
-    def get_value_by_utc_time(self, stream, utc_time, function_method=0, trace_index=0, deepness=12):
+    def get_value_by_utc_time(self, stream, utc_time, function_method=2, trace_index=0, deepness=12):
         """
         Function to get stream value using selected UTC time
         :param stream: target stream
@@ -157,15 +159,8 @@ class DrumCorr:
             ALTERNATIVE METHOD TO SELECTING STREAM VALUE
             Direct addressing to values
             """
-            # TODO: Rewrite to solve bug
-
-            start = stream[0].meta.starttime
-            vector_delta = utc_time - start
-            vv = int(vector_delta / stream[0].meta.delta)
-
-            # print()  # place breakpoint for debugging
-
-            result_value = stream[0].data[vv]
+            target_index = math.ceil((utc_time - stream[0].meta.starttime) / stream[0].meta.delta)
+            result_value = stream[0].data[target_index]
             return result_value
 
     def return_xcorr_max(self, stream, detects):
