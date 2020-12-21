@@ -50,7 +50,7 @@ def main():
         dc.report.approx_xcorr = dc.approx_xcorr(detections=dc.report.detects)
         dc.report.max_xcorr_value, dc.report.max_xcorr_amplitude = dc.return_xcorr_max(dc.report.stream,
                                                                                        dc.report.detects)
-        dc.report.report_print()  # print results
+        # dc.report.report_print()  # print results
         report_name = dc.report.generate_report_name(report_format=conf.param['report_format'])
         report_path = os.path.join(conf.param['data_folder'], report_name)
         dc.report.report_to_file(out_file_name=report_path)  # export results to file
