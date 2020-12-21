@@ -2,6 +2,7 @@ from obspy.signal.cross_correlation import correlation_detector
 
 from lib.reader import StreamReader
 from lib.result_report import Report
+from lib import strings
 
 
 class DrumCorr:
@@ -213,9 +214,8 @@ class DrumCorr:
         if len(self.report.detects) > template_minimum_count:
             return 1
         else:
-            print(("[!] Cross-correlation returns 0 or low ({res_num}) number of results of\n"
-                   "    file: <{file_name}>, quit..").format(res_num=len(self.report.detects),
-                                                             file_name=self.report.current_file_name))
+            print(strings.Console.low_corr_warning.format(res_num=len(self.report.detects),
+                                                          file_name=self.report.current_file_name))
             return 0
 
     @staticmethod
