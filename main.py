@@ -18,9 +18,10 @@ def main():
     :return: Writes report file of auto-correlation function
     """
     ca = ConsoleApp()
-    logger_lib.init_logger(strings.__project_name__)
-    logger.info(strings.Console.start_init)
     conf = JsonConfig(ca.args.config)
+    logger_lib.init_logger(project_name=strings.__project_name__,
+                           notify_providers=conf.param['notify'])
+    logger.info(strings.Console.start_init)
     dc = DrumCorr()
     logger.info(strings.Console.program_start)
     logger.info(strings.Console.reading_template.format(
@@ -54,7 +55,6 @@ def main():
         logger.info(strings.Console.calc_file_finished.format(
             input_file=dc.report.current_file_name,
             elapsed_time=time.process_time() - t))
-
         dc.clean_report()
 
 

@@ -11,6 +11,7 @@
     "xcorr_minimum_count": 0.0,
     "template_file": "data/template/+2707_0024-template.asc",
     "data_folder": "data/27.07-13.10",
-    "report_format": "{file_name}-report.txt"
+    "report_format": "{file_name}-report.txt",
+    "notify": ["gmail"]
   }
 }

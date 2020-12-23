@@ -17,7 +17,6 @@ def init_logger(project_name, notify_providers=None, log_level='DEBUG'):
                level=log_level,
                rotation='1 MB',
                compression='zip')
-    # add mail notification
-    notify.add_gmail_sender(logger)
-    # add telegram notification
-    # notify.add_telegram_sender(logger)
+    providers = notify.Providers()
+    for p in notify_providers:
+        providers.add(p, logger)
