@@ -1,11 +1,11 @@
 import math
 
-from obspy.signal.cross_correlation import correlation_detector
 from loguru import logger
+from obspy.signal.cross_correlation import correlation_detector
 
+from lib import strings
 from lib.reader import StreamReader
 from lib.result_report import Report
-from lib import strings
 
 
 class DrumCorr:

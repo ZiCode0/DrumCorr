@@ -1,4 +1,5 @@
 import sys
+
 from lib.reader import StreamReader
 
 sr = StreamReader()

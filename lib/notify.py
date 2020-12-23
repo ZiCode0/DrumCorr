@@ -3,8 +3,8 @@ import os
 
 from notifiers.logging import NotificationHandler
 from read_env import read_env
-from lib import strings
 
+from lib import strings
 
 read_env()
 notify_vars = {'mail_login': os.environ["GMAIL_LOGIN"],
