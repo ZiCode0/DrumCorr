@@ -24,3 +24,6 @@ class ConsoleApp:
         parser.add_argument("-v", "--version", help="show program version", action="store_true")
         parser.add_argument("-c", '--config', help="select config file")
         self.args = parser.parse_args()
+        if self.args.version:
+            print(self.app_version)
+            quit(0)

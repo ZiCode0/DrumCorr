@@ -17,14 +17,12 @@ def main():
     Calculate auto-correlation for drumbeats
     :return: Writes report file of auto-correlation function
     """
-    logger_lib.init_logger(strings.__project_name__)
-
-    logger.info(strings.Console.start_init)
     ca = ConsoleApp()
+    logger_lib.init_logger(strings.__project_name__)
+    logger.info(strings.Console.start_init)
     conf = JsonConfig(ca.args.config)
     dc = DrumCorr()
     logger.info(strings.Console.program_start)
-
     logger.info(strings.Console.reading_template.format(
         template=conf.param['template_file']))
     dc.get_template(conf.param['template_file'])
