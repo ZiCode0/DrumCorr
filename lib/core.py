@@ -13,7 +13,6 @@ class DrumCorr:
     Main program core.
     Calculates the correlation based on the ratio of the pattern and the sliding window
     """
-
     def __init__(self):
         self.report = Report(self.get_value_by_utc_time)
 
