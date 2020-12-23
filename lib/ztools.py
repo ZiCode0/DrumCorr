@@ -28,5 +28,5 @@ class JsonConfig:
 
 
 if __name__ == '__main__':
-    conf = JsonConfig('./../data/template_config.json')
+    conf = JsonConfig('./../config/example/config_example.json')
     conf.print_config()
