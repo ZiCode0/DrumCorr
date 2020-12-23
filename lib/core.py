@@ -10,7 +10,7 @@ from lib.result_report import Report
 
 class DrumCorr:
     """
-    Cross-correlation in DrumBeats template analyzing
+    Auto-correlation in DrumBeats template analyzing
     """
 
     def __init__(self):

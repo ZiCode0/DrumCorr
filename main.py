@@ -14,8 +14,8 @@ from lib.ztools import JsonConfig
 @logger.catch
 def main():
     """
-    Calculate cross-correlation for drum beats
-    :return: Writes report file of cross-correlation function
+    Calculate auto-correlation for drumbeats
+    :return: Writes report file of auto-correlation function
     """
     logger_lib.init_logger(strings.__project_name__)
 
