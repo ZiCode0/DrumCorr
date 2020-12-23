@@ -1,4 +1,5 @@
 from json import dumps, load
+import os
 
 
 class JsonConfig:
@@ -7,18 +8,15 @@ class JsonConfig:
         Json input arguments parser
         :param file: input file path to input file
         """
-        self.json_data = None
-        with open(file, "r") as o_file:
-            self.json_data = load(o_file)
-        self.param = {'notify': None}
-        self.param = {**self.param, **self.json_data['config']}
-        del self.json_data
+        self.param = {'notify': None,
+                      'data_folder': os.path.dirname(file)}
+        self.param = {**self.param, **load(open(file, "r"))['config']}
 
     def print_config(self):
         """
         Print input arguments
         """
-        out_dump = dumps(self.json_data,
+        out_dump = dumps(self.param,
                          indent=4,
                          sort_keys=True)
         out_dump = out_dump.replace(',', '')
