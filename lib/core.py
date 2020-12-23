@@ -34,22 +34,6 @@ class DrumCorr:
                                         freqmax=float(filter_params[0]))
             return filtered_data
 
-    @staticmethod
-    def set_first_beat_as_template(data, plot_result=False):
-        """
-        Get template for selected file: 20110926-10-33-obspy.asc
-        :param plot_result: plot template
-        :param data: input stream data
-        :return:
-        """
-        st = data[0].stats.starttime
-        pick_start = 18
-        pick_end = pick_start + 18
-        template_stream = data.slice(st + pick_start, st + pick_end)
-        if plot_result:
-            template_stream.plot()
-        return template_stream
-
     def get_template(self, template_filename):
         """
         Get template for first-step xcorrelation
