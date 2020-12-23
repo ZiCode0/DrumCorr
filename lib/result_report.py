@@ -23,17 +23,17 @@ class Report:
         out = '''DrumCorr File <{file}> result:\n
 Beats count:\t\t\t{beats}
 Detection value:\t\t{detect}
-Average correlation:\t\t{xcorr}
+Average correlation:\t{xcorr}
 Max corr:
     Value:\t\t{max_xcorr_val}
-    Amplitude:\t\t{max_amp}(x1000 = {ap_max_amp})'''.format(file=self.current_file_name,
-                                                            beats=len(self.detects),
-                                                            detect=self.detection_value,
-                                                            xcorr=self.approx_xcorr,
-                                                            max_xcorr_val=self.max_xcorr_value,
-                                                            max_amp=self.max_xcorr_amplitude,
-                                                            ap_max_amp=round(self.max_xcorr_amplitude * 1000, 2)
-                                                            )
+    Amplitude:\t{max_amp}(x1000 = {ap_max_amp})'''.format(file=self.current_file_name,
+                                                          beats=len(self.detects),
+                                                          detect=self.detection_value,
+                                                          xcorr=self.approx_xcorr,
+                                                          max_xcorr_val=self.max_xcorr_value,
+                                                          max_amp=self.max_xcorr_amplitude,
+                                                          ap_max_amp=round(self.max_xcorr_amplitude * 1000, 2)
+                                                          )
         return out
 
     def report_print(self):
@@ -55,11 +55,12 @@ Max corr:
             #  out data
             for detect in self.detects:
                 cur_time = detect['time'].datetime.strftime(time_format)
-                f.write('{current_time}\t{sim}\t{time}\n'.format(current_time=str(cur_time),
-                                                                 sim=detect['similarity'],
-                                                                 time=self.get_time_value(stream=self.stream,
-                                                                                          utc_time=detect[
-                                                                                              'time']) * 1000)
+                f.write('{current_time}\t{sim:0.3f}\t{amp:0.4f}\n'.format(current_time=str(cur_time),
+                                                                          sim=detect['similarity'],
+                                                                          amp=self.get_time_value(
+                                                                              stream=self.stream,
+                                                                              utc_time=detect[
+                                                                                  'time']) * 1000)
                         )
 
             f.close()
