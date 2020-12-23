@@ -10,7 +10,8 @@ class JsonConfig:
         self.json_data = None
         with open(file, "r") as o_file:
             self.json_data = load(o_file)
-        self.param = self.json_data['config']
+        self.param = {'notify': None}
+        self.param = {**self.param, **self.json_data['config']}
 
     def print_config(self):
         """

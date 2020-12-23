@@ -17,6 +17,8 @@ def init_logger(project_name, notify_providers=None, log_level='DEBUG'):
                level=log_level,
                rotation='1 MB',
                compression='zip')
-    providers = notify.Providers()
-    for p in notify_providers:
-        providers.add(p, logger)
+    # add report providers
+    if notify_providers:
+        providers = notify.Providers()
+        for p in notify_providers:
+            providers.add(p, logger)
