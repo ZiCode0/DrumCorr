@@ -59,6 +59,9 @@ def main():
             input_file=dc.report.current_file_name,
             elapsed_time=time.process_time() - t))
         dc.clean_report()  # clean report object
+    # log: exit program
+    logger.info(strings.Console.program_exit.format(project_name=strings.__project_name__,
+                                                    exit_code=1))
 
 
 if __name__ == "__main__":
