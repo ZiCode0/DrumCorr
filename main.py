@@ -44,7 +44,6 @@ def main():
                                                      detect_value=conf.param['xcorr_detection_value'])
         if not dc.check_xcorr_results(template_minimum_count=conf.param['xcorr_minimum_count']):
             continue
-        dc.report.beats_count = len(dc.report.detects)
         dc.report.approx_xcorr = dc.approx_xcorr(detections=dc.report.detects)
         dc.report.max_xcorr_value, dc.report.max_xcorr_amplitude = dc.return_xcorr_max(dc.report.stream,
                                                                                        dc.report.detects)

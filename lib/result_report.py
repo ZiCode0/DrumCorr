@@ -7,7 +7,6 @@ class Report:
         self.get_time_value = utc_time_func
 
         self.current_file_name = None
-        self.beats_count = None
         self.detection_value = None
         self.approx_xcorr = None
         self.max_xcorr_value = None
