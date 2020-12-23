@@ -20,13 +20,12 @@ class Report:
         self.times = None
 
     def report_head(self):
-        out = '''Drum Beats File <{file}> result:
-[*] First x-correlation:
+        out = '''DrumCorr File <{file}> result:\n
 Beats count:\t\t\t{beats}
 Detection value:\t\t{detect}
-Cross-correlation:\t\t{xcorr}
-Maximum:
-    XCorr value:\t\t{max_xcorr_val}
+Average correlation:\t\t{xcorr}
+Max corr:
+    Value:\t\t{max_xcorr_val}
     Amplitude:\t\t{max_amp}(x1000 = {ap_max_amp})'''.format(file=self.current_file_name,
                                                             beats=len(self.detects),
                                                             detect=self.detection_value,
