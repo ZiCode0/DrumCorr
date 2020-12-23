@@ -22,7 +22,7 @@ class ConsoleApp:
         # initiate the parser with a description
         parser = argparse.ArgumentParser(description=text)
         parser.add_argument("-v", "--version", help="show program version", action="store_true")
-        parser.add_argument("-c", '--config', help="select config file")
+        parser.add_argument("-c", '--config', help="select config file", default="default")
         self.args = parser.parse_args()
         if self.args.version:
             print(self.app_version)
