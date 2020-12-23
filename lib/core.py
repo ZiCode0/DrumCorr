@@ -29,8 +29,6 @@ class DrumCorr:
         :return: filtered <obspy.core.stream.Stream>
         """
         if filter_name == 'bandpass':
-            # local_filter_min = float(ca.filter_min)
-            # local_filter_max = float(ca.filter_max)
             filtered_data = data.filter(filter_name,
                                         freqmin=float(filter_params[0]),
                                         freqmax=float(filter_params[0]))
