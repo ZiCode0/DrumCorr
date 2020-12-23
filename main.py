@@ -15,7 +15,7 @@ from lib.ztools import JsonConfig
 def main():
     """
     Calculate auto-correlation for drumbeats
-    :return: Writes report file of auto-correlation function
+    :return: Report files of auto-correlation function
     """
     ca = ConsoleApp()
     conf = JsonConfig(ca.args.config)
