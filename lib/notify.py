@@ -61,27 +61,39 @@ def tg_emit(head):
     return wrapper_function
 
 
-def add_gmail_sender(logger):
-    params = {
-        "username": notify_vars.get('mail_login'),
-        "password": notify_vars.get('mail_pass'),
-        "to": notify_vars.get('mail_to'),
-        "subject": strings.Report.mail_subject
-    }
-    handler = NotificationHandler("gmail", defaults=params)
-    logger.add(handler, level="ERROR")
-    return logger
+class Providers:
+    def __init__(self):
+        """
+        Notification providers for sending error reports
+        """
+        self.notify_providers = {'gmail': self.gmail_sender,
+                                 'telegram': self.telegram_sender}
 
+    def add(self, arg, args):
+        return self.notify_providers[arg](args)
 
-def add_telegram_sender(logger):
-    params = {
-        "chat_id": notify_vars.get('tg_id'),
-        "token": notify_vars.get('tg_token'),
-        "message": 'test'
-    }
-    handler = AltTelegramNotificationHandler("telegram", defaults=params)
-    logger.add(handler, level="ERROR")
-    return logger
+    @staticmethod
+    def gmail_sender(logger):
+        params = {
+            "username": notify_vars.get('mail_login'),
+            "password": notify_vars.get('mail_pass'),
+            "to": notify_vars.get('mail_to'),
+            "subject": strings.Report.mail_subject
+        }
+        handler = NotificationHandler("gmail", defaults=params)
+        logger.add(handler, level="ERROR")
+        return logger
+
+    @staticmethod
+    def telegram_sender(logger):
+        params = {
+            "chat_id": notify_vars.get('tg_id'),
+            "token": notify_vars.get('tg_token'),
+            "message": 'test'
+        }
+        handler = AltTelegramNotificationHandler("telegram", defaults=params)
+        logger.add(handler, level="ERROR")
+        return logger
 
 
 if __name__ == '__main__':
