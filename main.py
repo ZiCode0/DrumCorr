@@ -14,46 +14,51 @@ from lib.ztools import JsonConfig
 @logger.catch
 def main():
     """
-    Calculate auto-correlation for drumbeats
-    :return: Report files of auto-correlation function
+    Main program function
     """
-    ca = ConsoleApp()
-    conf = JsonConfig(ca.args.config)
+    ca = ConsoleApp()  # console app instance
+    conf = JsonConfig(ca.args.config)  # config instance
     logger_lib.init_logger(project_name=strings.__project_name__,
-                           notify_providers=conf.param['notify'])
-    logger.info(strings.Console.start_init)
-    dc = DrumCorr()
-    logger.info(strings.Console.program_start)
+                           notify_providers=conf.param['notify'])  # initialize config
+    logger.info(strings.Console.start_init)  # log: init program
+    dc = DrumCorr()  # DrumCorr core instance
+    logger.info(strings.Console.program_start)  # log: starting program
     logger.info(strings.Console.reading_template.format(
-        template=conf.param['template_file']))
-    template_object = dc.get_template(conf.param['template_file'])
-    file_paths, file_names = file_parser(conf.param['data_folder'])
+        template=conf.param['template_file']))  # log: reading template
+    template_object = dc.get_template(conf.param['template_file'])  # reading template
+    file_paths, file_names = file_parser(conf.param['data_folder'])  # get files list
     logger.info(strings.Console.process_loaded_files.format(
-        count=len(file_names)))
-    for file_index in range(len(file_paths)):
-        t = time.process_time()
+        count=len(file_names)))  # log: info about loaded files
+    for file_index in range(len(file_paths)):  # processing files
+        t = time.process_time()  # start file processing timer
 
-        file = file_paths[file_index]
+        file = file_paths[file_index]  # get file
         dc.report.current_file_name = file_names[file_index]  # file name to results
         dc.report.detection_value = conf.param['xcorr_detection_value']  # detection value for xcorr
 
-        dc.report.stream = dc.read_file(file)
-        norm_stream = dc.report.stream.normalize()  # normalize
+        dc.report.stream = dc.read_file(file)  # get file content
+        norm_stream = dc.report.stream.normalize()  # normalize target file
+        # running correlation detector
         dc.report.detects, dc.report.sims = dc.xcorr(data=norm_stream,
                                                      template=template_object,
                                                      detect_value=conf.param['xcorr_detection_value'])
+        # skip file if correlation results is low
         if not dc.check_xcorr_results(template_minimum_count=conf.param['xcorr_minimum_count']):
             continue
-        dc.report.approx_xcorr = dc.approx_xcorr(detections=dc.report.detects)
+        dc.report.approx_xcorr = dc.approx_xcorr(detections=dc.report.detects)  # calculate approximate correlation
+        # calculate correlation maximum of file
         dc.report.max_xcorr_value, dc.report.max_xcorr_amplitude = dc.return_xcorr_max(dc.report.stream,
                                                                                        dc.report.detects)
+        # generate report name
         report_name = dc.report.generate_report_name(report_format=conf.param['report_format'])
+        # generate report file path
         report_path = os.path.join(conf.param['data_folder'], report_name)
-        dc.report.report_to_file(out_file_name=report_path)  # export results to file
+        dc.report.report_to_file(out_file_name=report_path)  # export results to report file
+        # log: file result
         logger.info(strings.Console.calc_file_finished.format(
             input_file=dc.report.current_file_name,
             elapsed_time=time.process_time() - t))
-        dc.clean_report()
+        dc.clean_report()  # clean report object
 
 
 if __name__ == "__main__":
