@@ -23,17 +23,20 @@ def main():
     logger.info(strings.Console.start_init)  # log: init program
     dc = DrumCorr()  # DrumCorr core instance
     logger.info(strings.Console.program_start)  # log: start program
+
+    template_path, file_paths = file_parser(conf)  # get files list
+
     logger.info(strings.Console.reading_template.format(
-        template=conf.param['template_file']))  # log: read template
-    template_object = dc.get_template(conf.param['template_file'])  # read template
-    file_paths, file_names = file_parser(conf.param['data_folder'])  # get files list
+        template=os.path.basename(template_path)))  # log: read template
+    template_object = dc.get_template(template_path)  # read template
+
     logger.info(strings.Console.process_loaded_files.format(
-        count=len(file_names)))  # log: info about loaded files
+        count=len(file_paths)))  # log: info about loaded files
     for file_index in range(len(file_paths)):  # processing files
         t = time.process_time()  # start file processing timer
 
         file = file_paths[file_index]  # get file
-        dc.report.current_file_name = file_names[file_index]  # file name to results
+        dc.report.current_file_name = os.path.basename(file_paths[file_index])  # file name to results
         dc.report.detection_value = conf.param['xcorr_detection_value']  # detection value for xcorr
 
         dc.report.stream = dc.read_file(file)  # get file content

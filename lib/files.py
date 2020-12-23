@@ -24,7 +24,7 @@ class Files:
         return result_paths
 
 
-def file_parser(folder_path):
+def file_parser(conf):
     """
     Parse file list from selected data folder
     :return: list of founded file paths, list of founded file names
@@ -32,20 +32,24 @@ def file_parser(folder_path):
     extensions = ['asc', 'mseed']
     files_paths = []
     for ext in extensions:
-        files_paths += glob.glob(folder_path + "/*." + ext)
-    files_names = []
-    for file in files_paths:
-        ff = Path(file)
-        files_names.append(os.path.basename(ff))
-
+        files_paths += glob.glob(conf.param['data_folder'] + "/*." + ext)
+    del ext
+    # template prefix and postfix
+    template_prefix, template_postfix = conf.param['template_filename_format'].split('{file_name}')
+    # file prefix and postfix list
+    exclude_fixes = [pattern.split('{file_name}') for pattern in conf.param['exclude_filename_formats']]
+    # select one template
+    template_path = [v for v in files_paths
+                     if os.path.basename(v).startswith(template_prefix)
+                     and os.path.basename(v).endswith(template_postfix)][0]
+    files_paths.remove(template_path)  # exclude template from list
+    # apply exclude on file list
+    for ex in exclude_fixes:
+        files_paths = [v for v in files_paths
+                       if not (os.path.basename(v).startswith(ex[0])
+                               and os.path.basename(v).endswith(ex[1]))]
     # sort file names by digits
-    if len(files_names) > 1:
-        files_names = sorted(files_names,
+    if len(files_paths) > 1:
+        files_names = sorted(files_paths,
                              key=lambda x: float(re.findall('(\d+)', x)[0]))
-
-    # recreate sorted file paths
-    files_paths = []
-    for file in files_names:
-        files_paths.append(os.path.join(folder_path, file))
-
-    return files_paths, files_names
+    return template_path, files_paths
