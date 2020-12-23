@@ -26,7 +26,7 @@ def main():
     logger.info(strings.Console.program_start)
     logger.info(strings.Console.reading_template.format(
         template=conf.param['template_file']))
-    dc.get_template(conf.param['template_file'])
+    template_object = dc.get_template(conf.param['template_file'])
     file_paths, file_names = file_parser(conf.param['data_folder'])
     logger.info(strings.Console.process_loaded_files.format(
         count=len(file_names)))
@@ -39,7 +39,6 @@ def main():
 
         dc.report.stream = dc.read_file(file)
         norm_stream = dc.report.stream.normalize()  # normalize
-        template_object = dc.get_template(conf.param['template_file'])
         dc.report.detects, dc.report.sims = dc.xcorr(data=norm_stream,
                                                      template=template_object,
                                                      detect_value=conf.param['xcorr_detection_value'])
