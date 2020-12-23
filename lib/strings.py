@@ -7,7 +7,7 @@ class Console:
     reading_template = 'Reading template from <{template}>..'
     process_loaded_files = 'Processing {count} files..'
     calc_file_finished = 'File <{input_file}> report calculated, elapsed time: {elapsed_time}'
-    low_corr_warning = 'Cross-correlation returns 0 or low ({res_num}) number of results for' \
+    low_corr_warning = 'Correlation returns 0 or low ({res_num}) number of results for' \
                        '\nfile: <{file_name}>, quit..'
 
 
