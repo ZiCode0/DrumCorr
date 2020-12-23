@@ -19,13 +19,13 @@ def main():
     ca = ConsoleApp()  # console app instance
     conf = JsonConfig(ca.args.config)  # config instance
     logger_lib.init_logger(project_name=strings.__project_name__,
-                           notify_providers=conf.param['notify'])  # initialize config
+                           notify_providers=conf.param['notify'])  # init config
     logger.info(strings.Console.start_init)  # log: init program
     dc = DrumCorr()  # DrumCorr core instance
-    logger.info(strings.Console.program_start)  # log: starting program
+    logger.info(strings.Console.program_start)  # log: start program
     logger.info(strings.Console.reading_template.format(
-        template=conf.param['template_file']))  # log: reading template
-    template_object = dc.get_template(conf.param['template_file'])  # reading template
+        template=conf.param['template_file']))  # log: read template
+    template_object = dc.get_template(conf.param['template_file'])  # read template
     file_paths, file_names = file_parser(conf.param['data_folder'])  # get files list
     logger.info(strings.Console.process_loaded_files.format(
         count=len(file_names)))  # log: info about loaded files
@@ -38,7 +38,7 @@ def main():
 
         dc.report.stream = dc.read_file(file)  # get file content
         norm_stream = dc.report.stream.normalize()  # normalize target file
-        # running correlation detector
+        # run correlation detector
         dc.report.detects, dc.report.sims = dc.xcorr(data=norm_stream,
                                                      template=template_object,
                                                      detect_value=conf.param['xcorr_detection_value'])
