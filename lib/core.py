@@ -10,7 +10,8 @@ from lib.result_report import Report
 
 class DrumCorr:
     """
-    Auto-correlation in DrumBeats template analyzing
+    Main program core.
+    Calculates the correlation based on the ratio of the pattern and the sliding window
     """
 
     def __init__(self):
@@ -22,7 +23,7 @@ class DrumCorr:
     @staticmethod
     def filter_data(data, filter_name, filter_params):
         """
-        Filtering function
+        Filter function
         :type data: target stream data
         :param filter_name: filter name. Default: bandpass
         :param filter_params: input filter parameters
