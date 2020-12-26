@@ -28,9 +28,6 @@ class StreamReader:
         :type file_path: input target filename
         :return: obspy data stream
         """
-        # bug fix for reading GS RAN's specific format
-        #
-        # /\/\/\
         file_data = read(file_path)
         return file_data
 
