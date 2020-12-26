@@ -62,7 +62,9 @@ class DrumCorr:
                                                 distance=pass_step,
                                                 plot=None)
         if len(detections) != 0:
-            del detections[0]
+            # exclude self correlation
+            detections = [v for v in detections if v['similarity'] < 0.999]
+            # del detections[0]
         return detections, sims
 
     @staticmethod
