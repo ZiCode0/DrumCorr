@@ -14,3 +14,13 @@ class Console:
 
 class Report:
     mail_subject = '{project_name}: Error report'.format(project_name=__project_name__)
+
+
+class Patterns:
+    pass
+
+
+class Environment:
+    init_body = '''GMAIL_LOGIN=""\n
+    GMAIL_PASSWORD=""\n
+    TELEGRAM_TOKEN=""'''
