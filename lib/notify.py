@@ -6,12 +6,26 @@ from read_env import read_env
 
 from lib import strings
 
-read_env()
-notify_vars = {'mail_login': os.environ["GMAIL_LOGIN"],
-               'mail_pass': os.environ["GMAIL_PASSWORD"],
-               'mail_to': 'zedcode.05@gmail.com',
-               'tg_token': os.environ["TELEGRAM_TOKEN"],
-               'tg_id': '265792659'}
+
+class LocalEnvironment:
+    def __init__(self):
+        """
+        Local Environment instance to store local system variables
+        """
+        try:
+            read_env()
+        except FileNotFoundError:
+            open('../.env', 'w').write(strings.Environment.init_body)
+            read_env()
+        finally:
+            self.vars = {'mail_login': os.environ["GMAIL_LOGIN"],
+                         'mail_pass': os.environ["GMAIL_PASSWORD"],
+                         'mail_to': 'zedcode.05@gmail.com',
+                         'tg_token': os.environ["TELEGRAM_TOKEN"],
+                         'tg_id': '265792659'}
+
+
+local_env = LocalEnvironment()
 
 
 class TelegramNotificationHandler(NotificationHandler):
@@ -75,9 +89,9 @@ class Providers:
     @staticmethod
     def gmail_sender(logger):
         params = {
-            "username": notify_vars.get('mail_login'),
-            "password": notify_vars.get('mail_pass'),
-            "to": notify_vars.get('mail_to'),
+            "username": local_env.vars.get('mail_login'),
+            "password": local_env.vars.get('mail_pass'),
+            "to": local_env.vars.get('mail_to'),
             "subject": strings.Report.mail_subject
         }
         handler = NotificationHandler("gmail", defaults=params)
@@ -87,8 +101,8 @@ class Providers:
     @staticmethod
     def telegram_sender(logger):
         params = {
-            "chat_id": notify_vars.get('tg_id'),
-            "token": notify_vars.get('tg_token'),
+            "chat_id": local_env.vars.get('tg_id'),
+            "token": local_env.vars.get('tg_token'),
             "message": 'test'
         }
         handler = AltTelegramNotificationHandler("telegram", defaults=params)
@@ -97,4 +111,4 @@ class Providers:
 
 
 if __name__ == '__main__':
-    print(notify_vars)
+    print(local_env.vars)
