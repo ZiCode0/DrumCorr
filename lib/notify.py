@@ -15,7 +15,7 @@ class LocalEnvironment:
         try:
             read_env()
         except FileNotFoundError:
-            open('../.env', 'w').write(strings.Environment.init_body)
+            open('.env', 'w').write(strings.Environment.init_body)
             read_env()
         finally:
             self.vars = {'mail_login': os.environ["GMAIL_LOGIN"],
