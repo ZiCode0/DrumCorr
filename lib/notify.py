@@ -22,7 +22,7 @@ class LocalEnvironment:
                          'mail_pass': os.environ["GMAIL_PASSWORD"],
                          'mail_to': 'zedcode.05@gmail.com',
                          'tg_token': os.environ["TELEGRAM_TOKEN"],
-                         'tg_id': '265792659'}
+                         'tg_id': os.environ["TELEGRAM_ID"]}
 
 
 local_env = LocalEnvironment()

@@ -21,4 +21,4 @@ class Patterns:
 
 
 class Environment:
-    init_body = 'GMAIL_LOGIN=""\nGMAIL_PASSWORD=""\nTELEGRAM_TOKEN=""'
+    init_body = 'GMAIL_LOGIN=""\nGMAIL_PASSWORD=""\nTELEGRAM_ID=""\nTELEGRAM_TOKEN=""'
