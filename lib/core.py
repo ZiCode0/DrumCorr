@@ -9,12 +9,24 @@ from lib.result_report import Report
 
 
 class DrumCorr:
-    """
-    Main program core.
-    Calculates the correlation based on the ratio of the pattern and the sliding window
-    """
     def __init__(self):
+        """
+        Main program core.
+        Calculates the correlation based on the ratio of the pattern and the sliding window
+        """
         self.report = Report(self.get_value_by_utc_time)
+        self.corr_step = 0.1
+        self.wave_len = 1  # wave len in seconds
+        self.experimental = 0  # enable experimental futures
+
+    def experimental_futures(self, experimental_flag):
+        """
+        Set experimental future by config
+        :param experimental_flag: int(0,1)
+        """
+        self.experimental = experimental_flag
+        if self.experimental:
+            logger.warning(strings.Console.experimental_enabled)  # log: start program
 
     def clean_report(self):
         self.report = Report(self.get_value_by_utc_time)
@@ -75,7 +87,7 @@ class DrumCorr:
         approx_result = sum(approx_mass) / len(approx_mass)
         return approx_result
 
-    def get_value_by_utc_time(self, stream, utc_time, function_method=2, trace_index=0, deepness=12):
+    def get_value_by_utc_time(self, stream, utc_time, function_method=0, trace_index=0, deepness=12):
         """
         Function to get stream value using selected UTC time
         :param stream: target stream
@@ -86,7 +98,7 @@ class DrumCorr:
         :return: result value(float)
         """
 
-        if function_method == 0:
+        if self.experimental == 0:
             """
             OLD VERSION OF CODE USING OBSPY FUNCTIONS
             CAUSES PYTHON MEMORY ERROR WHILE CALCULATING BIG DATA
@@ -101,7 +113,16 @@ class DrumCorr:
                 result_value = stream[trace_index].data[index]
                 return result_value
 
-        elif function_method == 1:
+        elif self.experimental == 1:
+            """
+            ALTERNATIVE METHOD TO SELECTING STREAM VALUE
+            Direct addressing to values
+            """
+            target_index = math.ceil((utc_time - stream[0].meta.starttime) / stream[0].meta.delta)
+            result_value = stream[0].data[target_index]
+            return result_value
+
+        elif function_method == 2:
             """
             Modification of first method with division of target stream 
             """
@@ -137,15 +158,6 @@ class DrumCorr:
                         return stream[trace_index].data[past_index + s_index]
                     else:
                         past_index += pp
-
-        elif function_method == 2:
-            """
-            ALTERNATIVE METHOD TO SELECTING STREAM VALUE
-            Direct addressing to values
-            """
-            target_index = math.ceil((utc_time - stream[0].meta.starttime) / stream[0].meta.delta)
-            result_value = stream[0].data[target_index]
-            return result_value
 
     def return_xcorr_max(self, stream, detects):
         """
