@@ -58,9 +58,8 @@ class DrumCorr:
         except:
             return None
 
-    @staticmethod
-    def xcorr(data, template, detect_value=0.5):
-        pass_step = 0.1  # pass step in seconds
+    def xcorr(self, data, template, detect_value=0.5):
+        # pass_step = 0.1  # pass step in seconds
 
         # samples / seconds
         # 128 s     1 sec
@@ -71,7 +70,7 @@ class DrumCorr:
         detections, sims = correlation_detector(stream=data,
                                                 templates=template,
                                                 heights=detect_value,
-                                                distance=pass_step,
+                                                distance=self.corr_step,
                                                 plot=None)
         if len(detections) != 0:
             # exclude self correlation
