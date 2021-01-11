@@ -22,7 +22,8 @@ def main():
                            notify_providers=conf.param['notify'])  # init config
     logger.info(strings.Console.start_init)  # log: init program
     dc = DrumCorr()  # DrumCorr core instance
-    dc.experimental_futures(conf.param['experimental'])  # experimental future if enabled
+    if conf.param['experimental']:  # experimental future if enabled
+        dc.experimental_futures(conf.param['experimental'])
     logger.info(strings.Console.program_start)  # log: start program
 
     template_path, file_paths = file_parser(conf)  # get files list
