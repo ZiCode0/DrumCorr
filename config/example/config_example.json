@@ -12,6 +12,7 @@
     "template_filename_format": "+{file_name}",
     "exclude_filename_formats": ["-{file_name}", ".{file_name}"],
     "report_format": "{file_name}-report.txt",
-    "notify": ["gmail"]
+    "notify": ["gmail"],
+    "experimental": 1
   }
 }
