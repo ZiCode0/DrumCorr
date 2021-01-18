@@ -19,7 +19,7 @@ if git merge-base --is-ancestor $remote_branch HEAD; then
 fi
 
 # shellcheck disable=SC2078
-if [ ! git_updated ]; then
+if [ git_updated ]; then
     if git merge-base --is-ancestor HEAD "$remote_branch"; then
         echo 'Fast-forward possible. Merging...'
         # shellcheck disable=SC2086
