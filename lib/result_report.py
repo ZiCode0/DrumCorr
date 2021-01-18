@@ -38,9 +38,10 @@ Max corr:
     def report_print(self):
         print(self.report_head())
 
-    def report_to_file(self, out_file_name):
+    def report_to_file(self, out_file_name, experimental=False):
         """
         Writing report to file
+        :param experimental: enable experimental futures
         :type out_file_name: name of output report file
         """
         time_format = "%Y-%m-%dT%H:%M:%SZ.%f"
@@ -54,12 +55,15 @@ Max corr:
             #  out data
             for detect in self.detects:
                 cur_time = detect['time'].datetime.strftime(time_format)
+                #  set experimental amplitude skip
+                if experimental:
+                    amp_calc = 0
+                else:
+                    amp_calc = self.get_time_value(stream=self.stream, utc_time=detect['time']) * 1000
+                #  write data
                 f.write('{current_time}\t{sim:0.3f}\t{amp:0.4f}\n'.format(current_time=str(cur_time),
                                                                           sim=detect['similarity'],
-                                                                          amp=self.get_time_value(
-                                                                              stream=self.stream,
-                                                                              utc_time=detect[
-                                                                                  'time']) * 1000)
+                                                                          amp=amp_calc)
                         )
 
             f.close()

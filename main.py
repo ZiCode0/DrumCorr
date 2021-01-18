@@ -58,7 +58,7 @@ def main():
         report_name = dc.report.generate_report_name(report_format=conf.param['report_format'])
         # generate report file path
         report_path = os.path.join(conf.param['data_folder'], report_name)
-        dc.report.report_to_file(out_file_name=report_path)  # export results to report file
+        dc.report.report_to_file(out_file_name=report_path, experimental=dc.experimental)  # results to report file
         # log: file result
         logger.info(strings.Console.calc_file_finished.format(
             input_file=dc.report.current_file_name,
