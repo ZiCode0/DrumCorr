@@ -1,6 +1,8 @@
 import numpy as np
 from obspy import UTCDateTime, read, Trace, Stream
 
+from lib.extra import calibration_parser
+
 
 class NewInputData:
     data = None
@@ -17,7 +19,7 @@ class StreamReader:
         """
         Universal stream reader
         """
-        pass
+        self.pheader = calibration_parser.PreHeader()
 
     @staticmethod
     def read_file_using_obspy(file_path):
@@ -85,10 +87,12 @@ class StreamReader:
                 for line in range(len(lines) - 1):
                     # print(lines[line])
                     if '~' in lines[line]:
-                        continue
-                    if '[' in lines[line]:
-                        continue
-                    if lines[line] == '\n':
+                        # add characteristic dictionary record
+                        self.pheader.add_record_from_str(lines[line])
+                    elif '[' in lines[line]:
+                        # add extra args
+                        self.pheader.add_extras(lines[line])
+                    elif lines[line] == '\n':
                         continue
                     else:
                         if first_line_is_header:
@@ -103,4 +107,4 @@ class StreamReader:
                             stream = create_stream(new_data)
                             if plot_result:
                                 stream.plot()
-                            return stream
+                            return stream, self.pheader.dict
