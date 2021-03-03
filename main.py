@@ -52,8 +52,7 @@ def main():
             continue
         dc.workspace.approx_xcorr = dc.approx_xcorr(detections=dc.workspace.detects)  # calculate approximate corr
         # calculate correlation maximum of file
-        dc.report.max_xcorr_value, dc.report.max_xcorr_amplitude = dc.return_xcorr_max(dc.report.stream,
-                                                                                       dc.report.detects)
+        dc.get_max_amplitudes()
         # generate report name
         report_name = dc.workspace.generate_report_name(report_format=conf.param['report_format'])
         # generate report file path
