@@ -1,7 +1,6 @@
 import glob
 import os
 import re
-from pathlib import Path
 
 
 class Files:
