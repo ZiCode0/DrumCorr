@@ -14,7 +14,7 @@ class DrumCorr:
         Main program core.
         Calculates the correlation based on the ratio of the pattern and the sliding window
         """
-        self.report = Report(self.get_value_by_utc_time)
+        self.workspace = Workspace(self.get_value_by_utc_time)
         self.corr_step = 0.1
         self.wave_len = 1  # wave len in seconds
         self.experimental = 0  # enable experimental futures
@@ -29,7 +29,7 @@ class DrumCorr:
             logger.warning(strings.Console.experimental_enabled)  # log: start program
 
     def clean_report(self):
-        self.report = Report(self.get_value_by_utc_time)
+        self.workspace = Workspace(self.get_value_by_utc_time)
 
     @staticmethod
     def filter_data(data, filter_name, filter_params):
@@ -107,8 +107,8 @@ class DrumCorr:
                 result_value = stream[trace_index].data[index]
                 return result_value
             else:
-                self.report.times = stream[trace_index].times('utcdatetime')
-                index = self.report.times.searchsorted(utc_time)
+                self.workspace.times = stream[trace_index].times('utcdatetime')
+                index = self.workspace.times.searchsorted(utc_time)
                 result_value = stream[trace_index].data[index]
                 return result_value
 
@@ -202,7 +202,7 @@ class DrumCorr:
         return average_level, min_array, max_array
 
     def check_xcorr_results(self, template_minimum_count):
-        if len(self.report.detects) > template_minimum_count:
+        if len(self.workspace.detects) > template_minimum_count:
             return 1
         else:
             logger.warning(strings.Console.low_corr_warning.format(res_num=len(self.report.detects),

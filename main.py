@@ -38,30 +38,30 @@ def main():
         t = time.process_time()  # start file processing timer
 
         file = file_paths[file_index]  # get file
-        dc.report.current_file_name = os.path.basename(file_paths[file_index])  # file name to results
-        dc.report.detection_value = conf.param['xcorr_detection_value']  # detection value for xcorr
+        dc.workspace.current_file_name = os.path.basename(file_paths[file_index])  # file name to results
+        dc.workspace.detection_value = conf.param['xcorr_detection_value']  # detection value for xcorr
 
-        dc.report.stream = dc.read_file(file)  # get file content
-        norm_stream = dc.report.stream.normalize()  # normalize target file
+        dc.workspace.stream = dc.read_file(file)  # get file content
+        dc.transform_data(dc.workspace.stream)  # transform digital data to m/sec
         # run correlation detector
-        dc.report.detects, dc.report.sims = dc.xcorr(data=norm_stream,
-                                                     template=template_object,
-                                                     detect_value=conf.param['xcorr_detection_value'])
+        dc.workspace.detects, dc.workspace.sims = dc.xcorr(data=dc.workspace.stream,
+                                                           template=template_object,
+                                                           detect_value=conf.param['xcorr_detection_value'])
         # skip file if correlation results is low
         if not dc.check_xcorr_results(template_minimum_count=conf.param['xcorr_minimum_count']):
             continue
-        dc.report.approx_xcorr = dc.approx_xcorr(detections=dc.report.detects)  # calculate approximate correlation
+        dc.workspace.approx_xcorr = dc.approx_xcorr(detections=dc.workspace.detects)  # calculate approximate corr
         # calculate correlation maximum of file
         dc.report.max_xcorr_value, dc.report.max_xcorr_amplitude = dc.return_xcorr_max(dc.report.stream,
                                                                                        dc.report.detects)
         # generate report name
-        report_name = dc.report.generate_report_name(report_format=conf.param['report_format'])
+        report_name = dc.workspace.generate_report_name(report_format=conf.param['report_format'])
         # generate report file path
         report_path = os.path.join(conf.param['data_folder'], report_name)
-        dc.report.report_to_file(out_file_name=report_path, experimental=dc.experimental)  # results to report file
+        dc.workspace.report_to_file(out_file_name=report_path, experimental=dc.experimental)  # results to report file
         # log: file result
         logger.info(strings.Console.calc_file_finished.format(
-            input_file=dc.report.current_file_name,
+            input_file=dc.workspace.current_file_name,
             elapsed_time=time.process_time() - t))
         dc.clean_report()  # clean report object
     # log: exit program
