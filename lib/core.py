@@ -301,4 +301,13 @@ class DrumCorr:
 
     def read_file(self, file):
         sr = StreamReader()
-        return sr.read(input_filename=file)
+        file, chars = sr.read(input_filename=file)
+        # get characteristic
+        self.workspace.v['chars'] = chars
+        try:
+            self.workspace.v['calibrations'] = calibration.Calibrations(self.workspace.v['chars'])
+        except:
+            pass
+        return file
+        # update multiplier for selected file if possible
+        # self.transfer_d
