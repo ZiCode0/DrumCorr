@@ -117,7 +117,7 @@ class DrumCorr:
 
         elif self.experimental == 1:
             """
-            ALTERNATIVE METHOD TO SELECTING STREAM VALUE
+            ALTERNATIVE METHOD TO SELECT STREAM VALUE
             Direct addressing to values
             """
             target_index = math.ceil((utc_time - stream[0].meta.starttime) / stream[0].meta.delta)
@@ -208,8 +208,8 @@ class DrumCorr:
         if len(self.workspace.detects) > template_minimum_count:
             return 1
         else:
-            logger.warning(strings.Console.low_corr_warning.format(res_num=len(self.report.detects),
-                                                                   file_name=self.report.current_file_name))
+            logger.warning(strings.Console.low_corr_warning.format(res_num=len(self.workspace.detects),
+                                                                   file_name=self.workspace.current_file_name))
             return 0
 
     def get_max_amplitudes(self, trim_before=10, trim_after=20, trigger_start=1.0, trigger_stop=0.9):
@@ -309,5 +309,3 @@ class DrumCorr:
         except:
             pass
         return file
-        # update multiplier for selected file if possible
-        # self.transfer_d
