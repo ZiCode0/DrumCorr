@@ -27,7 +27,7 @@ class Workspace:
         self.times = None
 
         # config vars
-        self.time_format = "%Y-%m-%dT%H:%M:%SZ.%f"
+        self.time_format = "%Y-%m-%d\t%H:%M:%SZ.%f"
 
     def report_head(self):
         out = '''DrumCorr File <{file}> result:\n
@@ -62,7 +62,7 @@ Max corr:
         for detect in self.detects:
             if detect['similarity'] == self.max_amp_xcorr:
                 self.max_amp_val = amp.return_micron_to_seconds(detect['max_amplitude'])
-                self.max_amp_time = detect['max_amplitude_time']
+                self.max_amp_time = detect['max_amplitude_time'].strftime(self.time_format)
         #
         # #
 
