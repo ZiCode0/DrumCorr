@@ -27,7 +27,7 @@ class Workspace:
         self.times = None
 
         # config vars
-        self.time_format = "%Y-%m-%d\t%H:%M:%SZ.%f"
+        self.time_format = "%Y-%m-%d\t%H:%M:%S"
 
     def report_head(self):
         out = '''DrumCorr File <{file}> result:\n
