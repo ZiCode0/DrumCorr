@@ -10,7 +10,7 @@ class Console:
     low_corr_warning = 'Correlation returns 0 or low ({res_num}) number of results for' \
                        '\nfile: <{file_name}>, quit..'
     experimental_enabled = 'Experimental futures enabled..'
-    program_exit = 'Program {project_name} finished, exit code {exit_code}'
+    program_exit = 'Program {project_name} finished for folder <{project_folder}>, exit code {exit_code}'
 
 
 class Report:

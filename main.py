@@ -65,6 +65,7 @@ def main():
         dc.clean_report()  # clean report object
     # log: exit program
     logger.info(strings.Console.program_exit.format(project_name=strings.__project_name__,
+                                                    project_folder=conf.param['data_folder'],
                                                     exit_code=1))
 
 

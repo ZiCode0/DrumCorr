@@ -91,6 +91,7 @@ Max corr:
                         )
 
             f.close()
+        #
         # #
 
     def generate_report_name(self, report_format):
