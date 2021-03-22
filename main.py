@@ -3,7 +3,7 @@ import time
 
 from loguru import logger
 
-import lib.logger as logger_lib
+import lib.log.logger as logger_lib
 from lib import strings
 from lib.app import ConsoleApp
 from lib.core import DrumCorr

@@ -1,6 +1,6 @@
 from loguru import logger
 
-from lib import notify
+from lib.log import notify
 
 
 def init_logger(project_name, notify_providers=None, log_level='DEBUG'):
