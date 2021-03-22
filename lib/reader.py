@@ -22,6 +22,21 @@ class StreamReader:
         self.pheader = calibration_parser.PreHeader()
 
     @staticmethod
+    def create_stream(data):
+        """
+        Convert NewInputData to obspy Stream
+        :param data: NewInputData class convert to obspy stream
+        :return: stream
+        """
+        # Fill header attributes
+        stats = {'network': data.network, 'station': data.station, 'location': '',
+                 'channel': data.channel, 'npts': len(data.data),
+                 'sampling_rate': data.sampling_rate, 'mseed': {'dataquality': 'D'},
+                 'starttime': data.start_time}
+        st = Stream([Trace(data=data.data, header=stats)])  # create stream
+        return st
+
+    @staticmethod
     def read_file_using_obspy(file_path):
         """
         Universal reader of file formats based on obspy function
@@ -68,20 +83,6 @@ class StreamReader:
                 new_data.sampling_rate = float(calc_rate)  # set sampling rate
                 new_data.samples_count = int(hd[5])  # set total count of sample
 
-            def create_stream(data):
-                """
-                Convert NewInputData to obspy Stream
-                :param data: NewInputData class convert to obspy stream
-                :return: stream
-                """
-                # Fill header attributes
-                stats = {'network': data.network, 'station': data.station, 'location': '',
-                         'channel': data.channel, 'npts': len(data.data),
-                         'sampling_rate': data.sampling_rate, 'mseed': {'dataquality': 'D'},
-                         'starttime': data.start_time}
-                st = Stream([Trace(data=data.data, header=stats)])  # create stream
-                return st
-
             with open(input_filename, "r+") as f:
                 lines = f.readlines()
                 for line in range(len(lines) - 1):
@@ -104,7 +105,7 @@ class StreamReader:
                             # using np.astype
                             new_data.data = new_data.data.astype(np.float)
 
-                            stream = create_stream(new_data)
+                            stream = self.create_stream(new_data)
                             if plot_result:
                                 stream.plot()
                             return stream, self.pheader.dict
