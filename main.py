@@ -8,7 +8,7 @@ from lib import strings
 from lib.app import ConsoleApp
 from lib.core import DrumCorr
 from lib.file.parser import file_parser
-from lib.ztools import JsonConfig
+from lib.config import JsonConfig
 
 
 @logger.catch
