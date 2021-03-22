@@ -3,7 +3,6 @@ import numpy as np
 from loguru import logger
 
 from obspy.signal.cross_correlation import correlation_detector
-from obspy.signal.trigger import recursive_sta_lta
 
 from lib import strings
 from lib.reader import StreamReader
@@ -212,7 +211,7 @@ class DrumCorr:
                                                                    file_name=self.workspace.current_file_name))
             return 0
 
-    def get_max_amplitudes(self, trim_before=10, trim_after=20, trigger_start=1.0, trigger_stop=0.9):
+    def get_max_amplitudes(self, trim_before=30, trim_after=20, trigger_start=0.99, trigger_stop=0.9):
         """
         Get high max amplitude values according to wave length
         :param trim_before:
@@ -220,80 +219,36 @@ class DrumCorr:
         :param trigger_start:
         :param trigger_stop:
         """
-        wave_before = trim_before
-        wave_after = trim_after
-        trigger_start_detect_value = trigger_start
-        trigger_stop_detect_value = trigger_stop
-        amp_multi = self.workspace.v['calibrations'].v['amplitude_multiplier']
 
+        from lib import average_sta as asta
+        average_stalta_result = asta.calc_average_sta_range(stream=self.workspace.stream,
+                                                            detects=self.workspace.detects,
+                                                            trim_before=trim_before,
+                                                            trim_after=trim_after)
+
+        max_sl_index = asta.calc_max_stalta_index(
+            average_stalta_result['average_stalta_function'])
+
+        # if '09' in self.workspace.current_file_name:
+        #     print()
+
+        sliced_traces = asta.return_sliced_traces_with_max(streams=average_stalta_result['streams'],
+                                                           maximum_index=max_sl_index)
+
+        max_dict_result = asta.return_trace_max_dict(streams=sliced_traces)
+
+        # fill detect result dictionary
         for detect_index in range(len(self.workspace.detects)):
-            start_detection = self.workspace.detects[detect_index]['time']
-            v = self.workspace.stream.slice(start_detection - wave_before,
-                                            start_detection + wave_after)
-            trace = v[0]
-            df = trace.stats.sampling_rate
-            # out_file_name = self.report.current_file_name + '-' + str(detect_index) + '.mseed'
-            # trace.write(out_file_name, format="MSEED")  # uncomment for #debug
-
-            # sta lta detector
-            cft = recursive_sta_lta(trace.data, int(5 * df), int(10 * df))
-            # plot_trigger(trace, cft, 1.0, 0.9)  # uncomment for #debug
-            # print()  # uncomment for #debug
-
-            # temp trigger index vars
-            trigger_start_index = None
-            trigger_stop_index = None
-
-            # found start and stop indexes of trigger detector
-            for index in range(trace.data.size):
-                if not trigger_start_index:
-                    # write index on start of detector
-                    if cft[index] >= trigger_start_detect_value:
-                        trigger_start_index = index
-                elif not trigger_stop_index:
-                    # write index on stop of detector
-                    if cft[index] <= trigger_stop_detect_value:
-                        trigger_stop_index = index
-                else:
-                    break
-
-            # write index stop trigger as the end of trace
-            if not trigger_stop_index:
-                trigger_stop_index = trace.data.size - 1
-
-            # trim current trace data
-            trace.trim(trace.meta.starttime + trigger_start_index / df,
-                       trace.meta.starttime + trigger_stop_index / df)
-
-            # write zero maximum amplitude and time on detector fail
-            if trace.data.size == 0:
-                self.workspace.detects[detect_index]['max_amplitude'] = 0
-                self.workspace.detects[detect_index]['max_amplitude_time'] = 0
-
-            # calc and write maximum for selected trace
-            else:
-                # find absolute maximum amplitude in the trace with time of it
-                # trace.data.max()
-                max_amp_value = trace.data[0]
-                max_amp_index = 0
-                for value_index in range(len(trace.data)):
-                    if trace.data[value_index] > max_amp_value:
-                        max_amp_value = trace.data[value_index]
-                        max_amp_index = value_index
-                max_amp_time = trace.meta.starttime + max_amp_index / 128
-
-                # why 1 000 000 ??
-                # visual_multiplier = 1000000
-                self.workspace.detects[detect_index]['max_amplitude'] = max_amp_value
-
-                self.workspace.detects[detect_index]['max_amplitude_time'] = max_amp_time
-            # print()  # uncomment for #debug
+            self.workspace.detects[detect_index]['max_amplitude'] =\
+                max_dict_result[detect_index]['max_amplitude']
+            self.workspace.detects[detect_index]['max_amplitude_time'] =\
+                max_dict_result[detect_index]['max_amplitude_time']
 
     def transform_data(self, stream):
         # multi = 0.3519690e+08
         multi = (1, self.workspace.v['calibrations']
                  .v['amplitude_multiplier'])[self.workspace.v['calibrations']
-                                                      .v['amplitude_multiplier'] is not None]
+                                                 .v['amplitude_multiplier'] is not None]
         # stream[0].data = []
         # #bug: amp
         stream[0].data = np.array([i / multi for i in stream[0].data.tolist()])
