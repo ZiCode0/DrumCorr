@@ -7,7 +7,7 @@ import lib.logger as logger_lib
 from lib import strings
 from lib.app import ConsoleApp
 from lib.core import DrumCorr
-from lib.files import file_parser
+from lib.file.parser import file_parser
 from lib.ztools import JsonConfig
 
 

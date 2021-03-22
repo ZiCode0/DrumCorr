@@ -5,7 +5,7 @@ from loguru import logger
 from obspy.signal.cross_correlation import correlation_detector
 
 from lib import strings
-from lib.reader import StreamReader
+from lib.file.reader import StreamReader
 from lib.workspace import Workspace
 from lib.extra import calibration
 

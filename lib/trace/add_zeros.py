@@ -1,7 +1,7 @@
 import numpy as np
 
-from lib.reader import StreamReader
-from lib.reader import NewInputData
+from lib.file.reader import StreamReader
+from lib.file.reader import NewInputData
 
 
 def trace_add_to_left(trace, zeros_sample_count):
