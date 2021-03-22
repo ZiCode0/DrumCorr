@@ -1,6 +1,5 @@
 import glob
 import os
-import re
 
 
 class Files:
@@ -49,6 +48,5 @@ def file_parser(conf):
                                and os.path.basename(v).endswith(ex[1]))]
     # sort file names by digits
     if len(files_paths) > 1:
-        files_names = sorted(files_paths,
-                             key=lambda x: float(re.findall('(\d+)', x)[0]))
+        files_paths = sorted(files_paths, key=lambda p: (os.path.sep not in p, p))
     return template_path, files_paths
