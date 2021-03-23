@@ -1,3 +1,5 @@
+from string import Template
+
 from lib.extra import amplitude as amp
 
 
@@ -28,12 +30,29 @@ class Workspace:
 
         # config vars
         self.time_format = "%Y-%m-%d\t%H:%M:%S"
+        self.time_little_format = "%H:%M:%S"
+
+    def format_delta_str_out(self, delta_obj):
+        """
+        Formate timedelta format without miliseconds
+        :param delta_obj:
+        :return:
+        """
+        class DeltaTemplate(Template):
+            delimiter = "%"
+        d = {"D": delta_obj.days}
+        d["H"], rem = divmod(delta_obj.seconds, 3600)
+        d["M"], d["S"] = divmod(rem, 60)
+        t = DeltaTemplate(self.time_little_format)
+        return t.substitute(**d)
 
     def report_head(self):
         out = '''DrumCorr File <{file}> result:\n
 Beats count:\t\t\t{beats}
 Detection value:\t\t{detect}
 Average correlation:\t{xcorr}
+Average amplitude:\t\t{aver_amp}
+Average amp delta:\t\t{aver_delta}
 Max corr:
     Value:\t\t{max_amp_c}
     Amplitude:\t{max_amp_v}
@@ -43,7 +62,11 @@ Max corr:
                                      xcorr=self.approx_xcorr,
                                      max_amp_c=self.max_amp_xcorr,
                                      max_amp_v=self.max_amp_val,
-                                     max_amp_t=self.max_amp_time
+                                     max_amp_t=self.max_amp_time,
+                                     aver_amp=amp.return_micron_to_seconds(
+                                         amp.average_amplitude(self.detects)),
+                                     aver_delta=self.format_delta_str_out(
+                                         amp.average_delta_time(self.detects))
                                      )
         return out
 
