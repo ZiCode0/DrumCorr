@@ -7,7 +7,7 @@ class Workspace:
         Class to realize results and its output
         :type utc_time_func: function object from DrumCorr to search value using UTCDateTime
         """
-        self.v = {}
+        self.values = {}
         self.get_time_value = utc_time_func
 
         self.current_file_name = None

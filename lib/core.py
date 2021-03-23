@@ -246,9 +246,9 @@ class DrumCorr:
 
     def transform_data(self, stream):
         # multi = 0.3519690e+08
-        multi = (1, self.workspace.v['calibrations']
-                 .v['amplitude_multiplier'])[self.workspace.v['calibrations']
-                                                 .v['amplitude_multiplier'] is not None]
+        multi = (1, self.workspace.values['calibrations']
+                 .values['amplitude_multiplier'])[self.workspace.values['calibrations']
+                                                 .values['amplitude_multiplier'] is not None]
         # stream[0].data = []
         # #bug: amp
         stream[0].data = np.array([i / multi for i in stream[0].data.tolist()])
@@ -258,9 +258,9 @@ class DrumCorr:
         sr = StreamReader()
         file, chars = sr.read(input_filename=file)
         # get characteristic
-        self.workspace.v['chars'] = chars
+        self.workspace.values['chars'] = chars
         try:
-            self.workspace.v['calibrations'] = calibration.Calibrations(self.workspace.v['chars'])
+            self.workspace.values['calibrations'] = calibration.Calibrations(self.workspace.values['chars'])
         except:
             pass
         return file
