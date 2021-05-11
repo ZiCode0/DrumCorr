@@ -17,9 +17,5 @@ class Report:
     mail_subject = '{project_name}: Error report'.format(project_name=__project_name__)
 
 
-class Patterns:
-    pass
-
-
 class Environment:
     init_body = 'GMAIL_LOGIN=""\nGMAIL_PASSWORD=""\nTELEGRAM_ID=""\nTELEGRAM_TOKEN=""'
