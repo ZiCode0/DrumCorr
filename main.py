@@ -19,7 +19,7 @@ def main():
     ca = ConsoleApp()  # console app instance
     conf = JsonConfig(ca.args.config)  # config instance
     logger_lib.init_logger(project_name=strings.__project_name__,
-                           notify_providers=conf.param['notify'])  # init config
+                           notify_providers=conf.param['notify'])  # init logger
     logger.info(strings.Console.start_init)  # log: init program
     dc = DrumCorr()  # DrumCorr core instance
     if 'experimental' in conf.param:  # experimental future if enabled
