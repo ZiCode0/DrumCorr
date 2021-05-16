@@ -34,7 +34,7 @@ class Workspace:
 
     def format_delta_str_out(self, delta_obj):
         """
-        Formate timedelta format without miliseconds
+        Timedelta format without milliseconds
         :param delta_obj:
         :return:
         """

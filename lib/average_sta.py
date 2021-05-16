@@ -6,18 +6,18 @@ from obspy import Stream
 from lib.trace import add_zeros
 
 
-def calc_average_sta_range(stream, detects, trim_before, trim_after, average_count=20):
+def calc_average_sta_range(stream, detects, trim_before, trim_after, average_count=20, sta_short=1, sta_long=4):
     """
     Using average value of stalta functions to detect maximum of each event in detect list.
     :param stream: target stream
+    :param detects:
     :param trim_after:
     :param trim_before:
     :param average_count: count of detect
-    :param detects:
+    :param sta_short: length of short stalta window
+    :param sta_long:length of long stalta window
     :return:
     """
-    wave_before = trim_before
-    wave_after = trim_after
     detect_trace_parts = []
     detect_trace_parts_sta = None
 
@@ -29,19 +29,19 @@ def calc_average_sta_range(stream, detects, trim_before, trim_after, average_cou
     # slice parts. count equal
     for detect_index in range(len(detects[:average_count])):
         start_detection = detects[detect_index]['time']
-        v = stream.slice(start_detection - wave_before,
-                         start_detection + wave_after)
+        v = stream.slice(start_detection - trim_before,
+                         start_detection + trim_after)
         detect_trace_parts.append(v[0])
         # df = trace.stats.sampling_rate
 
     # equating first trace length to the second. Add zeros to the beginning
     detect_trace_parts = equate_trace_length(traces_array=detect_trace_parts,
-                                             window_length=wave_before + wave_after)
+                                             window_length=trim_before + trim_after)
 
     # make stalta on sliced parts
     for trace in detect_trace_parts:
         df = trace.stats.sampling_rate
-        cft_d = delayed_sta_lta(trace.data, int(1 * df), int(4 * df))
+        cft_d = delayed_sta_lta(trace.data, int(sta_short * df), int(sta_long * df))
         if detect_trace_parts_sta is not None:
             detect_trace_parts_sta += cft_d
         else:
@@ -62,15 +62,15 @@ def calc_average_sta_range(stream, detects, trim_before, trim_after, average_cou
         start_detection = detects[detect_index]['time']
 
         # add zeros tale of data to the left part
-        sd_minus_wb = start_detection - wave_before
+        sd_minus_wb = start_detection - trim_before
         delta = stream[0].stats.starttime - sd_minus_wb
         if delta > 0:  # if start detection before stream start time
             delta_samples = int(delta * stream[0].stats.sampling_rate)
             stream[0] = add_zeros.trace_add_to_left(trace=stream[0],
                                                     zeros_sample_count=delta_samples)
 
-        v = stream.slice(start_detection - wave_before,
-                         start_detection + wave_after)
+        v = stream.slice(start_detection - trim_before,
+                         start_detection + trim_after)
         v.trim(v[0].stats.starttime + appendix_part_trace_time,
                v[0].stats.endtime)
         trace_arr.append(v)

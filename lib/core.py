@@ -8,6 +8,7 @@ from lib import strings
 from lib.file.reader import StreamReader
 from lib.workspace import Workspace
 from lib.extra import calibration
+from lib import average_sta as asta
 
 
 class DrumCorr:
@@ -211,16 +212,12 @@ class DrumCorr:
                                                                    file_name=self.workspace.current_file_name))
             return 0
 
-    def get_max_amplitudes(self, trim_before=30, trim_after=20, trigger_start=0.99, trigger_stop=0.9):
+    def get_max_amplitudes(self, trim_before=30, trim_after=20):
         """
         Get high max amplitude values according to wave length
         :param trim_before:
         :param trim_after:
-        :param trigger_start:
-        :param trigger_stop:
         """
-
-        from lib import average_sta as asta
         average_stalta_result = asta.calc_average_sta_range(stream=self.workspace.stream,
                                                             detects=self.workspace.detects,
                                                             trim_before=trim_before,
@@ -228,9 +225,6 @@ class DrumCorr:
 
         max_sl_index = asta.calc_max_stalta_index(
             average_stalta_result['average_stalta_function'])
-
-        # if '09' in self.workspace.current_file_name:
-        #     print()
 
         sliced_traces = asta.return_sliced_traces_with_max(streams=average_stalta_result['streams'],
                                                            maximum_index=max_sl_index)
@@ -247,9 +241,8 @@ class DrumCorr:
     def transform_data(self, stream):
         # multi = 0.3519690e+08
         multi = (1, self.workspace.values['calibrations']
-                 .values['amplitude_multiplier'])[self.workspace.values['calibrations']
-                                                 .values['amplitude_multiplier'] is not None]
-        # stream[0].data = []
+                 .values['amplitude_multiplier'])[self.workspace.values['calibrations'].values['amplitude_multiplier']
+                                                  is not None]
         # #bug: amp
         stream[0].data = np.array([i / multi for i in stream[0].data.tolist()])
         return stream
