@@ -46,7 +46,7 @@ class DrumCorr:
         if filter_name == 'bandpass':
             filtered_data = data.filter(filter_name,
                                         freqmin=float(filter_params[0]),
-                                        freqmax=float(filter_params[0]))
+                                        freqmax=float(filter_params[1]))
             return filtered_data
 
     def get_template(self, template_filename):
