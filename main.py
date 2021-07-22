@@ -32,10 +32,6 @@ def main():
         template=os.path.basename(template_path)))  # log: read template
     template_object = dc.get_template(template_path)  # read template
 
-    template_object = dc.filter_data(data=template_object,
-                                     filter_name=conf.param['filter']['filter_name'],
-                                     filter_params=conf.param['filter']['filter_params'])
-
     logger.info(strings.Console.process_loaded_files.format(
         count=len(file_paths)))  # log: info about loaded files
     for file_index in range(len(file_paths)):  # processing files
