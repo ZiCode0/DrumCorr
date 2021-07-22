@@ -2,7 +2,7 @@ import plotly.express as px
 import datetime
 
 
-def fancy_plot(input_traces):
+def fancy(input_traces):
     """
     Draw fancy interactive time series using plotly library
     :param input_traces: target trace to draw
