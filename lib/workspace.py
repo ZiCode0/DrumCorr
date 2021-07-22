@@ -1,6 +1,6 @@
 from string import Template
 
-from lib.extra import amplitude as amp
+from lib.file.extra import amplitude as amp
 
 
 class Workspace:

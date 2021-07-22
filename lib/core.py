@@ -7,7 +7,7 @@ from obspy.signal.cross_correlation import correlation_detector
 from lib import strings
 from lib.file.reader import StreamReader
 from lib.workspace import Workspace
-from lib.extra import calibration
+from lib.file.extra import calibration
 from lib import average_sta as asta
 
 
