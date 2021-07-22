@@ -1,7 +1,7 @@
 import numpy as np
 from obspy import UTCDateTime, read, Trace, Stream
 
-from lib.extra import calibration_parser
+from lib.file.extra import calibration_parser
 
 
 class NewInputData:
@@ -48,14 +48,14 @@ class StreamReader:
         file_data = read(file_path)
         return file_data
 
-    def read(self, input_filename, plot_result=False):
+    def read(self, path, plot_result=False):
         """
         Get obspy stream data for selected file
         :param plot_result: True if plot results
-        :type input_filename: input file name
+        :type path: input file name
         """
         try:
-            file = self.read_file_using_obspy(input_filename)
+            file = self.read_file_using_obspy(path)
             return file
         except:  # TODO: Define exception
             """
@@ -83,7 +83,7 @@ class StreamReader:
                 new_data.sampling_rate = float(calc_rate)  # set sampling rate
                 new_data.samples_count = int(hd[5])  # set total count of sample
 
-            with open(input_filename, "r+") as f:
+            with open(path, "r+") as f:
                 lines = f.readlines()
                 for line in range(len(lines) - 1):
                     # print(lines[line])
