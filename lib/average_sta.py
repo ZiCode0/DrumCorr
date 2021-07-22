@@ -1,6 +1,6 @@
 import numpy as np
 
-from obspy.signal.trigger import delayed_sta_lta, plot_trigger
+from obspy.signal.trigger import delayed_sta_lta  # , plot_trigger
 from obspy import Stream
 
 from lib.trace import add_zeros
@@ -53,8 +53,8 @@ def calc_average_sta_range(stream, detects, trim_before, trim_after, average_cou
 
     # time in seconds to slice it from the beginning
     appendix_divide_part = 3
-    appendix_part_trace_time = round((detect_trace_parts[0].stats.endtime - detect_trace_parts[0].stats.starttime) /
-                                     appendix_divide_part)
+    appendix_part_trace_time = round(
+        (detect_trace_parts[0].stats.endtime - detect_trace_parts[0].stats.starttime) / appendix_divide_part)
 
     trace_arr = []
     # trim traces, remove unnecessary stalta beginning (named "appendix")
@@ -66,8 +66,8 @@ def calc_average_sta_range(stream, detects, trim_before, trim_after, average_cou
         delta = stream[0].stats.starttime - sd_minus_wb
         if delta > 0:  # if start detection before stream start time
             delta_samples = int(delta * stream[0].stats.sampling_rate)
-            stream[0] = add_zeros.trace_add_to_left(trace=stream[0],
-                                                    zeros_sample_count=delta_samples)
+            stream[0] = add_zeros.trace_to_left(trace=stream[0],
+                                                zeros_sample_count=delta_samples)
 
         v = stream.slice(start_detection - trim_before,
                          start_detection + trim_after)
@@ -77,8 +77,8 @@ def calc_average_sta_range(stream, detects, trim_before, trim_after, average_cou
 
     # fill first trace with zeros at the beginning if low
     delta = trace_arr[1][0].data.size - trace_arr[0][0].data.size
-    trace = add_zeros.trace_add_to_left(trace=trace_arr[0][0],
-                                        zeros_sample_count=delta)
+    trace = add_zeros.trace_to_left(trace=trace_arr[0][0],
+                                    zeros_sample_count=delta)
     trace_arr[0] = Stream(traces=[trace])
 
     # trim beginning of stalta (named "appendix")
@@ -176,7 +176,7 @@ def equate_trace_length(traces_array, window_length):
     for trace_index in range(len(traces_array)):
         if traces_array[trace_index].data.size < input_sample_len:
             delta = input_sample_len - traces_array[trace_index].data.size
-            traces_array[trace_index] = add_zeros.trace_add_to_left(trace=traces_array[trace_index],
-                                                                    zeros_sample_count=delta)
+            traces_array[trace_index] = add_zeros.trace_to_left(trace=traces_array[trace_index],
+                                                                zeros_sample_count=delta)
 
     return traces_array

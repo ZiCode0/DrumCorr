@@ -30,7 +30,7 @@ def file_parser(conf):
     extensions = ['asc', 'mseed']
     files_paths = []
     for ext in extensions:
-        files_paths += glob.glob(conf.param['data_folder'] + "/*." + ext)
+        files_paths += glob.glob(conf.param['data_folder'] + "/*" + ext)
     del ext
     # template prefix and postfix
     template_prefix, template_postfix = conf.param['template_filename_format'].split('{file_name}')

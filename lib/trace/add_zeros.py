@@ -4,7 +4,7 @@ from lib.file.reader import StreamReader
 from lib.file.reader import NewInputData
 
 
-def trace_add_to_left(trace, zeros_sample_count):
+def trace_to_left(trace, zeros_sample_count):
     """
     Add zeros at the beginning of trace with selected zeros count
     :param trace: target trace

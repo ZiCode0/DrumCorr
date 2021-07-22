@@ -223,13 +223,17 @@ class DrumCorr:
                                                             trim_before=trim_before,
                                                             trim_after=trim_after)
 
-        max_sl_index = asta.calc_max_stalta_index(
-            average_stalta_result['average_stalta_function'])
+        max_sl_index = asta.calc_max_stalta_index(average_stalta_result['average_stalta_function'])
 
         sliced_traces = asta.return_sliced_traces_with_max(streams=average_stalta_result['streams'],
                                                            maximum_index=max_sl_index)
 
         max_dict_result = asta.return_trace_max_dict(streams=sliced_traces)
+
+        # report result with plot some results
+        # report.plot_detects(detects=self.workspace.detects,
+        #                     traces=average_stalta_result['streams'],
+        #                     detect_count=5)
 
         # fill detect result dictionary
         for detect_index in range(len(self.workspace.detects)):
@@ -249,7 +253,7 @@ class DrumCorr:
 
     def read_file(self, file):
         sr = StreamReader()
-        file, chars = sr.read(input_filename=file)
+        file, chars = sr.read(path=file)
         # get characteristic
         self.workspace.values['chars'] = chars
         try:
