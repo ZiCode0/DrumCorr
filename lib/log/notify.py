@@ -108,7 +108,3 @@ class Providers:
         handler = AltTelegramNotificationHandler("telegram", defaults=params)
         logger.add(handler, level="ERROR")
         return logger
-
-
-if __name__ == '__main__':
-    print(local_env.vars)
