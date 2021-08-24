@@ -2,10 +2,10 @@
   "config": {
     "filter": {
       "filter_name": "bandpass",
-      "filter_params": [
-        0.2,
-        10
-      ]
+      "filter_params": {
+        "freqmin": 0.2,
+        "freqmax": 10.0
+      }
     },
     "xcorr_detection_value": 0.6,
     "xcorr_minimum_count": 0.0,
