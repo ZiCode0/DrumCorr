@@ -3,14 +3,14 @@ import os
 
 
 class JsonConfig:
-    def __init__(self, file):
+    def __init__(self, file_path: str):
         """
         Json input arguments parser
-        :param file: input file path to input file
+        :param file_path: input file path to input file
         """
         self.param = {'notify': None,
-                      'data_folder': os.path.dirname(file)}
-        self.param = {**self.param, **load(open(file, "r"))['config']}
+                      'data_folder': os.path.dirname(file_path)}
+        self.param = {**self.param, **load(open(file_path, "r"))['config']}
 
     def print_config(self):
         """
