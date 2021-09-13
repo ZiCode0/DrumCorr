@@ -9,6 +9,7 @@ from lib.app import ConsoleApp
 from lib.core import DrumCorr
 from lib.file.parser import file_parser
 from lib.config import JsonConfig
+from lib.core import StreamReader
 
 
 @logger.catch
@@ -17,6 +18,7 @@ def main():
     Main program function
     """
     ca = ConsoleApp()  # console app instance
+    sr = StreamReader()  # file reader instance
     conf = JsonConfig(ca.args.config)  # config instance
     logger_lib.init_logger(project_name=strings.__project_name__,
                            notify_providers=conf.param['notify'])  # init logger
@@ -30,11 +32,15 @@ def main():
 
     logger.info(strings.Console.reading_template.format(
         template=os.path.basename(template_path)))  # log: read template
-    template_object = dc.get_template(template_path)  # read template
+    template_object, template_chars = sr.read(path=template_path)  # dc.get_template(template_path)  # read template
 
     template_object = dc.filter_data(template_object,  # data
                                      conf.param['filter']['filter_name'],  # filter name
                                      **conf.param['filter']['filter_params'])  # filter parameters
+
+    template_calibration = float(template_chars['CHINFONEED'][7])
+    template_object = dc.transform_data(template_object,
+                                        calibration_multiplier=template_calibration)  # transform raw data to m/sec
 
     logger.info(strings.Console.process_loaded_files.format(
         count=len(file_paths)))  # log: info about loaded files
@@ -49,7 +55,7 @@ def main():
         dc.workspace.stream = dc.filter_data(dc.workspace.stream,
                                              conf.param['filter']['filter_name'],
                                              **conf.param['filter']['filter_params'])
-        # dc.transform_data(dc.workspace.stream)  # transform digital data to m/sec
+        dc.workspace.stream = dc.transform_data(dc.workspace.stream)  # transform raw data to m/sec
 
         # run correlation detector
         dc.workspace.detects, dc.workspace.sims = dc.xcorr(data=dc.workspace.stream,

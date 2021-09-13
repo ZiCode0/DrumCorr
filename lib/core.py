@@ -240,13 +240,17 @@ class DrumCorr:
             self.workspace.detects[detect_index]['max_amplitude_time'] =\
                 max_dict_result[detect_index]['max_amplitude_time']
 
-    def transform_data(self, stream):
+    def transform_data(self, stream, calibration_multiplier=None):
         # multi = 0.3519690e+08
-        multi = (1, self.workspace.values['calibrations']
-                 .values['amplitude_multiplier'])[self.workspace.values['calibrations'].values['amplitude_multiplier']
-                                                  is not None]
+        milli_sec = 1000000
+        if calibration_multiplier:
+            multi = calibration_multiplier
+        else:
+            multi = (1, self.workspace.values['calibrations']
+                     .values['amplitude_multiplier'])[
+                self.workspace.values['calibrations'].values['amplitude_multiplier'] is not None]
         # #bug: amp
-        stream[0].data = np.array([i / multi for i in stream[0].data.tolist()])
+        stream[0].data = np.array([(i / multi * milli_sec) for i in stream[0].data.tolist()])
         return stream
 
     def read_file(self, file):

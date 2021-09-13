@@ -84,7 +84,7 @@ Max corr:
         self.max_amp_xcorr = max([i['similarity'] for i in self.detects])
         for detect in self.detects:
             if detect['similarity'] == self.max_amp_xcorr:
-                self.max_amp_val = amp.return_micron_to_seconds(detect['max_amplitude'])
+                self.max_amp_val = detect['max_amplitude']  # amp.return_micron_to_seconds(detect['max_amplitude'])
                 self.max_amp_time = detect['max_amplitude_time'].strftime(self.time_format)
         #
         # #
@@ -103,7 +103,7 @@ Max corr:
                 cur_time = detect['time'].datetime.strftime(self.time_format)
                 #  set experimental calc amplitude
                 if experimental:
-                    amp_calc = amp.return_micron_to_seconds(detect['max_amplitude'])
+                    amp_calc = detect['max_amplitude']  # amp.return_micron_to_seconds(detect['max_amplitude'])
                 else:
                     # set skip amplitude calc
                     amp_calc = 0
