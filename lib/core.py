@@ -22,7 +22,7 @@ class DrumCorr:
         self.wave_len = 1  # wave len in seconds
         self.experimental = 0  # enable experimental futures
 
-    def experimental_futures(self, experimental_flag):
+    def experimental_futures(self, experimental_flag: bool):
         """
         Set experimental future by config
         :param experimental_flag: int(0,1)
@@ -55,7 +55,8 @@ class DrumCorr:
             # template_file = read(template_filename)
             template_file = self.read_file(template_filename)
             return template_file
-        except:
+        except Exception as ex:
+            print(ex)
             return None
 
     def xcorr(self, data, template, detect_value=0.5):

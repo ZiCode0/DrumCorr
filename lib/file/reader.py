@@ -30,7 +30,7 @@ class StreamReader:
         """
         # Fill header attributes
         stats = {'network': data.network, 'station': data.station, 'location': '',
-                 'channel': data.channel, 'npts': len(data.data),
+                 'channel': data.channel, 'npts': data.data.size,
                  'sampling_rate': data.sampling_rate, 'mseed': {'dataquality': 'D'},
                  'starttime': data.start_time}
         st = Stream([Trace(data=data.data, header=stats)])  # create stream
