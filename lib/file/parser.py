@@ -22,13 +22,16 @@ class Files:
         return result_paths
 
 
-def file_parser(conf):
+def file_parser(conf, extensions=None):
     """
     Parse file list from selected data folder
     :return: list of founded file paths, list of founded file names
     """
-    extensions = ['asc', 'mseed']
+    if extensions is None:
+        extensions = ['asc', 'mseed']
     files_paths = []
+    if conf.param['data_folder'] == '':
+        conf.param['data_folder'] = '.'
     for ext in extensions:
         files_paths += glob.glob(conf.param['data_folder'] + "/*" + ext)
     del ext
