@@ -63,8 +63,7 @@ Max corr:
                                      max_amp_c=self.max_amp_xcorr,
                                      max_amp_v=self.max_amp_val,
                                      max_amp_t=self.max_amp_time,
-                                     aver_amp=amp.return_micron_to_seconds(
-                                         amp.average_amplitude(self.detects)),
+                                     aver_amp=amp.average_amplitude(self.detects),
                                      aver_delta=self.format_delta_str_out(
                                          amp.average_delta_time(self.detects))
                                      )
