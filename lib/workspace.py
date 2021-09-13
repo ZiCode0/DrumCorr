@@ -107,7 +107,7 @@ Max corr:
                 else:
                     # set skip amplitude calc
                     amp_calc = 0
-                    #  write data
+                #  write data
                 f.write('{current_time}\t{sim:0.3f}\t{amp}\n'.format(current_time=str(cur_time),
                                                                      sim=detect['similarity'],
                                                                      amp=amp_calc)
