@@ -52,8 +52,8 @@ class Workspace:
         out = '''DrumCorr File <{file}> result:\n
 Beats count:\t\t\t{beats}
 Detection value:\t\t{detect}
-Average correlation:\t{xcorr}
-Average amplitude:\t\t{aver_amp}
+Average correlation:\t{xcorr:0.3f}
+Average amplitude:\t\t{aver_amp:0.2f}
 Average amp delta:\t\t{aver_delta}
 Max corr:
     Value:\t\t{max_amp_c:0.3f}
