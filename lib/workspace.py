@@ -38,8 +38,10 @@ class Workspace:
         :param delta_obj:
         :return:
         """
+
         class DeltaTemplate(Template):
             delimiter = "%"
+
         d = {"D": delta_obj.days}
         d["H"], rem = divmod(delta_obj.seconds, 3600)
         d["M"], d["S"] = divmod(rem, 60)
@@ -54,8 +56,8 @@ Average correlation:\t{xcorr}
 Average amplitude:\t\t{aver_amp}
 Average amp delta:\t\t{aver_delta}
 Max corr:
-    Value:\t\t{max_amp_c}
-    Amplitude:\t{max_amp_v}
+    Value:\t\t{max_amp_c:0.3f}
+    Amplitude:\t{max_amp_v:0.2f}
     Amp time:\t{max_amp_t}'''.format(file=self.current_file_name,
                                      beats=len(self.detects),
                                      detect=self.detection_value,
@@ -108,8 +110,8 @@ Max corr:
                     amp_calc = 0
                 #  write data
                 f.write('{current_time}\t{sim:0.3f}\t{amp:0.2f}\n'.format(current_time=str(cur_time),
-                                                                     sim=detect['similarity'],
-                                                                     amp=amp_calc)
+                                                                          sim=detect['similarity'],
+                                                                          amp=amp_calc)
                         )
 
             f.close()
