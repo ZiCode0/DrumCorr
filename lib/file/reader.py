@@ -73,7 +73,7 @@ class StreamReader:
                 :return:
                 """
                 hd = header_line.split()
-                hd[0] = hd[0][:13] + '.' + hd[0][13:]  # make convertible to UTC format
+                hd[0] = hd[0][:14] + '.' + hd[0][14:]  # make convertible to UTC format
                 hd_time = UTCDateTime(hd[0])  # convert to UTC time format
                 new_data.start_time = hd_time  # set time
                 new_data.station = hd[1]
