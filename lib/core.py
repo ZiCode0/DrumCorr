@@ -18,7 +18,7 @@ class DrumCorr:
         Calculates the correlation based on the ratio of the pattern and the sliding window
         """
         self.workspace = Workspace(self.get_value_by_utc_time)
-        self.corr_step = 0.1
+        self.corr_step = 3  # distance in seconds between two correlation detections
         self.wave_len = 1  # wave len in seconds
         self.experimental = 0  # enable experimental futures
 
