@@ -18,7 +18,7 @@ def trace_to_left(trace, zeros_sample_count):
     zero_tail.channel = trace.stats.channel
     zero_tail.samples_count = zeros_sample_count
     zero_tail.start_time = trace.stats.starttime - zeros_sample_count / trace.stats.sampling_rate  # delta_start_utc
-    zero_tail.data = np.zeros(zeros_sample_count)
+    zero_tail.data = np.zeros(int(zeros_sample_count))
     sr = StreamReader()
     zero_tail = sr.create_stream(zero_tail)[0]
 
