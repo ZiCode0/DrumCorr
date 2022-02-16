@@ -56,7 +56,7 @@ class StreamReader:
         """
         try:
             file = self.read_file_using_obspy(path)
-            return file, _
+            return file, None
         except:  # TODO: Define exception
             """
             Try to read and convert to mseed format
