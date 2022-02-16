@@ -46,7 +46,7 @@ class StreamReader:
         :return: obspy data stream
         """
         file_data = read(file_path)
-        return file_data, None
+        return file_data
 
     def read(self, path, plot_result=False):
         """
@@ -56,7 +56,7 @@ class StreamReader:
         """
         try:
             file = self.read_file_using_obspy(path)
-            return file
+            return file, _
         except:  # TODO: Define exception
             """
             Try to read and convert to mseed format
