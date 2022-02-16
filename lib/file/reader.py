@@ -46,7 +46,7 @@ class StreamReader:
         :return: obspy data stream
         """
         file_data = read(file_path)
-        return file_data
+        return file_data, None
 
     def read(self, path, plot_result=False):
         """
