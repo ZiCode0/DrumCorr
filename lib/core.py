@@ -1,17 +1,14 @@
 import math
-import numpy as np
-from loguru import logger
 
+from loguru import logger
 from obspy.signal.cross_correlation import correlation_detector
 from obspy import Stream
 
 from lib import strings
-from lib.file.reader import StreamReader
-from lib.workspace import Workspace
-from lib.file.extra import calibration
 from lib import average_sta as asta
-
 from lib.file import response
+from lib.workspace import Workspace
+from lib.file.reader import StreamReader
 
 
 class DrumCorr:
