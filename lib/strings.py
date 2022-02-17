@@ -1,9 +1,10 @@
 __project_name__ = 'DrumCorr'
+__project_version__ = '1.2'
 
 
 class Console:
     start_init = 'Start program init..'
-    program_start = 'Program {project_name} started.'.format(project_name=__project_name__)
+    program_start = f'Program {__project_name__} v.{__project_version__} started.'
     reading_template = 'Reading template from <{template}>..'
     process_loaded_files = 'Processing {count} files..'
     calc_file_finished = 'File <{input_file}> report calculated, elapsed time: {elapsed_time}'

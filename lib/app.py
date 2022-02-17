@@ -9,7 +9,7 @@ class ConsoleApp:
         Initial console app function
         """
         self.app_name = strings.__project_name__
-        self.app_version = 1.0
+        self.app_version = strings.__project_version__
         self.author = 'ZiCode0'
         self.contacts = '[Telegram] @MrFantomz'
         self.args = None
