@@ -19,7 +19,7 @@ class StreamReader:
         """
         Universal stream reader
         """
-        self.pheader = calibration_parser.PreHeader()
+        pass
 
     @staticmethod
     def create_stream(data):
@@ -56,7 +56,7 @@ class StreamReader:
         """
         try:
             file = self.read_file_using_obspy(path)
-            return file, None
+            return file
         except:  # TODO: Define exception
             """
             Try to read and convert to mseed format
@@ -85,22 +85,24 @@ class StreamReader:
 
             with open(path, "r+") as f:
                 lines = f.readlines()
-                for line in range(len(lines) - 1):
+                for line_idx in range(len(lines) - 1):
                     # print(lines[line])
-                    if '~' in lines[line]:
+                    if '~' in lines[line_idx]:
                         # add characteristic dictionary record
-                        self.pheader.add_record_from_str(lines[line])
-                    elif '[' in lines[line]:
+                        # self.pheader.add_record_from_str(lines[line])
+                        continue
+                    elif ('[' in lines[line_idx]) or (lines[line_idx].startswith('[')):
                         # add extra args
-                        self.pheader.add_extras(lines[line])
-                    elif lines[line] == '\n':
+                        # self.pheader.add_extras(lines[line])
+                        continue
+                    elif lines[line_idx] == '\n':
                         continue
                     else:
                         if first_line_is_header:
-                            header_parser(header_line=lines[line])
+                            header_parser(header_line=lines[line_idx])
                             first_line_is_header = False
                         else:
-                            new_data.data = np.array(lines[line: -1])
+                            new_data.data = np.array(lines[line_idx: -1])
                             # converting to array of floats
                             # using np.astype
                             new_data.data = new_data.data.astype(np.float)
@@ -108,4 +110,4 @@ class StreamReader:
                             stream = self.create_stream(new_data)
                             if plot_result:
                                 stream.plot()
-                            return stream, self.pheader.dict
+                            return stream
