@@ -13,6 +13,7 @@
     "exclude_filename_formats": ["-{file_name}", ".{file_name}"],
     "report_format": "{file_name}-report.txt",
     "notify": ["gmail"],
-    "experimental": 1
+    "experimental": 1,
+    "fdsn_server_url": "http://sdis.emsd.ru"
   }
 }

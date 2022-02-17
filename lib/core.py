@@ -3,12 +3,15 @@ import numpy as np
 from loguru import logger
 
 from obspy.signal.cross_correlation import correlation_detector
+from obspy import Stream
 
 from lib import strings
 from lib.file.reader import StreamReader
 from lib.workspace import Workspace
 from lib.file.extra import calibration
 from lib import average_sta as asta
+
+from lib.file import response
 
 
 class DrumCorr:
@@ -240,26 +243,20 @@ class DrumCorr:
             self.workspace.detects[detect_index]['max_amplitude_time'] =\
                 max_dict_result[detect_index]['max_amplitude_time']
 
-    def transform_data(self, stream, calibration_multiplier=None):
-        # multi = 0.3519690e+08
-        milli_sec = 1000000
-        if calibration_multiplier:
-            multi = calibration_multiplier
-        else:
-            multi = (1, self.workspace.values['calibrations']
-                     .values['amplitude_multiplier'])[
-                self.workspace.values['calibrations'].values['amplitude_multiplier'] is not None]
-        # #bug: amp
-        stream[0].data = np.array([(i / multi * milli_sec) for i in stream[0].data.tolist()])
-        return stream
+    @staticmethod
+    def remove_response(stream: Stream, fdsn_url: str):
+        """
+        Remove response for Traces in target Stream
+        :param stream:
+        :param fdsn_url:
+        :return:
+        """
+        for trace in stream:
+            response.remove_response(trace, fdsn_url)
 
     def read_file(self, file):
         sr = StreamReader()
         file, chars = sr.read(path=file)
         # get characteristic
         self.workspace.values['chars'] = chars
-        try:
-            self.workspace.values['calibrations'] = calibration.Calibrations(self.workspace.values['chars'])
-        except:
-            pass
         return file

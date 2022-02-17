@@ -34,14 +34,12 @@ def main():
         template=os.path.basename(template_path)))  # log: read template
     template_object, template_chars = sr.read(path=template_path)  # dc.get_template(template_path)  # read template
 
-    template_object = dc.filter_data(template_object,  # data
-                                     conf.param['filter']['filter_name'],  # filter name
-                                     **conf.param['filter']['filter_params'])  # filter parameters
+    dc.remove_response(stream=t_template_object,
+                       fdsn_url=conf.param['fdsn_server_url'])  # apply instrumental correction to template file
 
-    template_calibration = float(template_chars['CHINFONEED'][7])
-    template_object = dc.transform_data(template_object,
-                                        calibration_multiplier=template_calibration)  # transform raw data to m/sec
-
+    dc.filter_data(t_template_object,  # data
+                   conf.param['filter']['filter_name'],  # filter name
+                   **conf.param['filter']['filter_params'])  # filter parameters
     logger.info(strings.Console.process_loaded_files.format(
         count=len(file_paths)))  # log: info about loaded files
     for file_index in range(len(file_paths)):  # processing files
@@ -51,12 +49,14 @@ def main():
         dc.workspace.current_file_name = os.path.basename(file_paths[file_index])  # file name to results
         dc.workspace.detection_value = conf.param['xcorr_detection_value']  # detection value for xcorr
 
-        dc.workspace.stream = dc.read_file(file)  # get file content
-        dc.workspace.stream = dc.filter_data(dc.workspace.stream,
-                                             conf.param['filter']['filter_name'],
-                                             **conf.param['filter']['filter_params'])
-        dc.workspace.stream = dc.transform_data(dc.workspace.stream)  # transform raw data to m/sec
+        # apply instrumental correction to input file
+        dc.remove_response(stream=dc.workspace.stream,
+                           fdsn_url=conf.param['fdsn_server_url'])
 
+        # filter input file data
+        dc.filter_data(dc.workspace.stream,
+                       conf.param['filter']['filter_name'],
+                       **conf.param['filter']['filter_params'])
         # run correlation detector
         dc.workspace.detects, dc.workspace.sims = dc.xcorr(data=dc.workspace.stream,
                                                            template=template_object,
