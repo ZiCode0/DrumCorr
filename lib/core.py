@@ -20,16 +20,6 @@ class DrumCorr:
         self.workspace = Workspace(self.get_value_by_utc_time)
         self.corr_step = 3  # distance in seconds between two correlation detections
         self.wave_len = 1  # wave len in seconds
-        self.experimental = 0  # enable experimental futures
-
-    def experimental_futures(self, experimental_flag: bool):
-        """
-        Set experimental future by config
-        :param experimental_flag: int(0,1)
-        """
-        self.experimental = experimental_flag
-        if self.experimental:
-            logger.warning(strings.Console.experimental_enabled)  # log: start program
 
     def clean_report(self):
         self.workspace = Workspace(self.get_value_by_utc_time)
@@ -98,7 +88,7 @@ class DrumCorr:
         :return: result value(float)
         """
 
-        if self.experimental == 0:
+        if function_method == 0:
             """
             OLD VERSION OF CODE USING OBSPY FUNCTIONS
             CAUSES PYTHON MEMORY ERROR WHILE CALCULATING BIG DATA
@@ -113,7 +103,7 @@ class DrumCorr:
                 result_value = stream[trace_index].data[index]
                 return result_value
 
-        elif self.experimental == 1:
+        elif function_method == 1:
             """
             ALTERNATIVE METHOD TO SELECT STREAM VALUE
             Direct addressing to values

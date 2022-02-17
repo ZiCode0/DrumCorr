@@ -102,12 +102,8 @@ Max corr:
             #  out data
             for detect in self.detects:
                 cur_time = detect['time'].datetime.strftime(self.time_format)
-                #  set experimental calc amplitude
-                if experimental:
-                    amp_calc = detect['max_amplitude']  # amp.return_micron_to_seconds(detect['max_amplitude'])
-                else:
-                    # set skip amplitude calc
-                    amp_calc = 0
+                #  set max amplitude
+                amp_calc = detect['max_amplitude']  # amp.return_micron_to_seconds(detect['max_amplitude'])
                 #  write data
                 f.write('{current_time}\t{sim:0.3f}\t{amp:0.2f}\n'.format(current_time=str(cur_time),
                                                                           sim=detect['similarity'],

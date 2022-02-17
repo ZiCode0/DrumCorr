@@ -3,13 +3,13 @@ import time
 
 from loguru import logger
 
-import lib.log.logger as logger_lib
 from lib import strings
+from lib.log import logger as logger_lib
 from lib.app import ConsoleApp
 from lib.core import DrumCorr
-from lib.file.parser import file_parser
 from lib.config import JsonConfig
 from lib.core import StreamReader
+from lib.file.parser import file_parser
 
 
 @logger.catch
@@ -24,8 +24,6 @@ def main():
                            notify_providers=conf.param['notify'])  # init logger
     logger.info(strings.Console.start_init)  # log: init program
     dc = DrumCorr()  # DrumCorr instance
-    if 'experimental' in conf.param:  # experimental future if enabled
-        dc.experimental_futures(conf.param['experimental'])
     logger.info(strings.Console.program_start)  # log: start program
 
     _template_path, _file_paths = file_parser(conf)  # get files list
@@ -76,8 +74,7 @@ def main():
         _report_name = dc.workspace.generate_report_name(report_format=conf.param['report_format'])
         # generate report file path
         _report_path = os.path.join(conf.param['data_folder'], _report_name)
-        dc.workspace.report_to_file(out_file_name=_report_path,
-                                    experimental=dc.experimental)  # results to report file
+        dc.workspace.report_to_file(out_file_name=_report_path)  # results to report file
         # log: file result
         logger.info(strings.Console.calc_file_finished.format(
             input_file=dc.workspace.current_file_name,
