@@ -38,12 +38,12 @@ def main():
     logger.info(strings.Console.reading_template.format(
         template=os.path.basename(_template_path)))
     # read template
-    t_template_object, t_template_chars = sr.read(path=_template_path)
+    t_template_stream = dc.read_file(path=_template_path)
     # apply instrumental correction to template file
-    dc.remove_response(stream=t_template_object,
+    dc.remove_response(stream=t_template_stream,
                        fdsn_url=conf.param['fdsn_server_url'])
     # filter template
-    dc.filter_data(t_template_object,  # data
+    dc.filter_data(t_template_stream,  # data
                    conf.param['filter']['filter_name'],  # filter name
                    **conf.param['filter']['filter_params'])  # filter parameters
     # log: info about loaded files
@@ -70,7 +70,7 @@ def main():
                        **conf.param['filter']['filter_params'])
         # run correlation detector
         dc.workspace.detects, dc.workspace.sims = dc.xcorr(data=dc.workspace.stream,
-                                                           template=t_template_object,
+                                                           template=t_template_stream,
                                                            detect_value=conf.param['xcorr_detection_value'])
         # skip file if correlation results is low
         if not dc.check_xcorr_results(template_minimum_count=conf.param['xcorr_minimum_count']):
