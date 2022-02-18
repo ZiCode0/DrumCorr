@@ -10,7 +10,7 @@ class Console:
     calc_file_finished = 'File <{input_file}> report calculated, elapsed time: {elapsed_time}'
     low_corr_warning = 'Correlation returns 0 or low ({res_num}) number of results for' \
                        '\nfile: <{file_name}>, quit..'
-    experimental_enabled = 'Experimental futures enabled..'
+    error_reading_file = 'Error reading file. Check file on gaps.'
     program_exit = 'Program {project_name} finished for folder <{project_folder}>, exit code {exit_code}'
 
 

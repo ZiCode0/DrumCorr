@@ -1,6 +1,7 @@
 import numpy as np
 from obspy import UTCDateTime, read, Trace, Stream
 
+from lib import strings
 from lib.file.extra import calibration_parser
 
 
@@ -115,7 +116,7 @@ class StreamReader:
                                 # using np.astype
                                 new_data.data = new_data.data.astype(np.float)
                             except Exception:
-                                raise DCErrorReadingFile("Error reading file.. Check file on gaps.")
+                                raise DCErrorReadingFile(strings.Console.error_reading_file)
 
                             stream = self.create_stream(new_data)
                             if plot_result:
