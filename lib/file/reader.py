@@ -4,6 +4,13 @@ from obspy import UTCDateTime, read, Trace, Stream
 from lib.file.extra import calibration_parser
 
 
+class DCErrorReadingFile(Exception):
+    """
+    Custom error reading file instance
+    """
+    pass
+
+
 class NewInputData:
     data = None
     start_time = None
@@ -102,10 +109,13 @@ class StreamReader:
                             header_parser(header_line=lines[line_idx])
                             first_line_is_header = False
                         else:
-                            new_data.data = np.array(lines[line_idx: -1])
-                            # converting to array of floats
-                            # using np.astype
-                            new_data.data = new_data.data.astype(np.float)
+                            try:
+                                new_data.data = np.array(lines[line_idx: -1])
+                                # converting to array of floats
+                                # using np.astype
+                                new_data.data = new_data.data.astype(np.float)
+                            except Exception:
+                                raise DCErrorReadingFile("Error reading file.. Check file on gaps.")
 
                             stream = self.create_stream(new_data)
                             if plot_result:
