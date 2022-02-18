@@ -1,5 +1,5 @@
 __project_name__ = 'DrumCorr'
-__project_version__ = '1.2'
+__project_version__ = '1.2.1'
 
 
 class Console:
