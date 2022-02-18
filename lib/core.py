@@ -241,11 +241,10 @@ class DrumCorr:
         for trace in stream:
             response.remove_response(trace, fdsn_url)
 
-    def read_file(self, path):
+    @staticmethod
+    def read_file(path):
         sr = StreamReader()
         # get Stream and characteristic raw data
-        file, chars = sr.read(path=path)
-        # try to get raw characteristic data
-        self.workspace.values['chars'] = chars
+        file = sr.read(path=path)
         # return Stream data
         return file

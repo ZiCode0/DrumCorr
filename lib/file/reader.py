@@ -55,8 +55,8 @@ class StreamReader:
         :type path: input file name
         """
         try:
-            file = self.read_file_using_obspy(path)
-            return file
+            stream = self.read_file_using_obspy(path)
+            return stream
         except:  # TODO: Define exception
             """
             Try to read and convert to mseed format
