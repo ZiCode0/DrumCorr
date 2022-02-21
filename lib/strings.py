@@ -11,6 +11,7 @@ class Console:
     low_corr_warning = 'Correlation returns 0 or low ({res_num}) number of results for' \
                        '\nfile: <{file_name}>, quit..'
     error_reading_file = 'Error reading file. Check file on gaps.'
+    error_fdsn_connection = 'Failed to connect FDSN server: {server_url}. Stop parsing..'
     program_exit = 'Program {project_name} finished for folder <{project_folder}>, exit code {exit_code}'
 
 

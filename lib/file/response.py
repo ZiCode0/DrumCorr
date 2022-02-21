@@ -1,8 +1,12 @@
 import obspy.clients.fdsn.header
 
-from lib import fdsn
+from lib import fdsn, strings
 from obspy.clients.fdsn import Client
 from obspy import Trace
+
+
+class DCErrorFDSNConnectionFail(Exception):
+    pass
 
 
 def remove_response(trace: Trace, fdsn_url: str) -> bool:
@@ -33,3 +37,10 @@ def remove_response(trace: Trace, fdsn_url: str) -> bool:
     except obspy.clients.fdsn.header.FDSNNoDataException:
         # return remove_response result as bool answer
         return False
+
+    # error fdsn connect
+    except (obspy.clients.fdsn.header.FDSNException,  # Common FDSN Exception
+            ValueError  # ValueError while not in GS RAN Network
+            ):
+        # return custom error catch error
+        raise DCErrorFDSNConnectionFail(strings.Console.error_fdsn_connection.format(server_url=fdsn_url))
