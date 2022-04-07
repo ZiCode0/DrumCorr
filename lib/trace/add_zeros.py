@@ -13,6 +13,7 @@ def trace_to_left(trace, zeros_sample_count):
     """
     zero_tail = NewInputData()
     zero_tail.sampling_rate = trace.stats.sampling_rate
+    zero_tail.location = trace.stats.location
     zero_tail.station = trace.stats.station
     zero_tail.network = trace.stats.network
     zero_tail.channel = trace.stats.channel

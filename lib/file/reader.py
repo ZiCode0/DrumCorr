@@ -18,6 +18,7 @@ class NewInputData:
     station = None  # station name
     channel = None  # channel name
     network = None  # network code
+    location = ''  # location code
     sampling_rate = None  # 128
     samples_count = 0
 
@@ -37,8 +38,11 @@ class StreamReader:
         :return: stream
         """
         # Fill header attributes
-        stats = {'network': data.network, 'station': data.station, 'location': '',
-                 'channel': data.channel, 'npts': data.data.size,
+        stats = {'network': data.network,
+                 'station': data.station,
+                 'location': data.location,
+                 'channel': data.channel,
+                 'npts': data.data.size,
                  'sampling_rate': data.sampling_rate, 'mseed': {'dataquality': 'D'},
                  'starttime': data.start_time}
         st = Stream([Trace(data=data.data, header=stats)])  # create stream
