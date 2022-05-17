@@ -15,10 +15,8 @@ class ConsoleApp:
         self.args = None
 
         # define program description
-        text = '{app_name} by {author} v.{app_version}\nContacts: {contacts}'.format(app_name=self.app_name,
-                                                                                     author=self.author,
-                                                                                     app_version=self.app_version,
-                                                                                     contacts=self.contacts)
+        text = f'{self.app_name} by {self.author} v.{self.app_version}\nContacts: {self.contacts}'
+
         # initiate the parser with a description
         parser = argparse.ArgumentParser(description=text)
         parser.add_argument("-v", "--version", help="show program version", action="store_true")
