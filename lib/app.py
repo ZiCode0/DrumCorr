@@ -22,8 +22,11 @@ class ConsoleApp:
         # initiate the parser with a description
         parser = argparse.ArgumentParser(description=text)
         parser.add_argument("-v", "--version", help="show program version", action="store_true")
-        parser.add_argument("-c", '--config', help="select config file", default="default")
+        parser.add_argument("-c", '--config', help="specify path to target config json file")
         self.args = parser.parse_args()
         if self.args.version:
             print(self.app_version)
+            quit(0)
+        elif (not self.args.config) and (not self.args.version):
+            parser.print_help()
             quit(0)
