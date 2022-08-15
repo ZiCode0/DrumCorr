@@ -3,7 +3,7 @@
     "filter": {
       "filter_name": "bandpass",
       "filter_params": {
-        "freqmin": 0.2,
+        "freqmin": 0.5,
         "freqmax": 10.0
       }
     },
