@@ -38,7 +38,7 @@ python main.py
     ```
 2. Prepare data folder as in example.
    Place data files with template, marked with `+` in file name.
-<img src="example/data_folder.png" width="400">
+
 3. Place and edit configuration Json file in this one. <br />
 Example can be found here: [Json config example](./example).
 4. Specify the config file when running program.
