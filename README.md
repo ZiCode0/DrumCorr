@@ -33,16 +33,18 @@ python main.py
 
 ## Usage
 1. Enter virtual environment:
-```bash 
-source .venv/bin/activate
-```
-2. Prepare data folder as in example. Place data files with template, marked with `+` in file name.
-![](example/data_folder.png)
-3. Place and edit configuration Json file in this one. Example can be found here: [example/config.json](https://github.com/ZiCode0/DrumCorr/blob/main/example/config.json).
+    ```bash 
+    source .venv/bin/activate
+    ```
+2. Prepare data folder as in example. <br />
+Place data files with template, marked with `+` in file name.
+![](example/data_folder.jpg)
+3. Place and edit configuration Json file in this one. <br />
+Example can be found here: [example/config.json](https://github.com/ZiCode0/DrumCorr/blob/main/example/config.json).
 4. Specify the config file when running program.
-```bash
-python main.py -c data/2011-09-06/config.json
-```
+    ```bash
+    python main.py -c data/2011-09-06/config.json
+    ```
 
 
 
