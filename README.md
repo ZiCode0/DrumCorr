@@ -37,7 +37,7 @@ python main.py
 source .venv/bin/activate
 ```
 2. Prepare data folder as in example. Place data files with template, marked with `+` in file name.
-![](example/data_folder.png)
+<img src="example/data_folder.png" width="200">
 3. Place and edit configuration Json file in this one. Example can be found here: [example/config.json](https://github.com/ZiCode0/DrumCorr/blob/main/example/config.json).
 4. Specify the config file when running program.
 ```bash
