@@ -36,14 +36,15 @@ python main.py
     ```bash 
     source .venv/bin/activate
     ```
-2. Prepare data folder as in example. Place data files with template, marked with `+` in file name.
+2. Prepare data folder as in example.
+   Place data files with template, marked with `+` in file name.
 <img src="example/data_folder.png" width="400">
-3. Place and edit configuration Json file in this one.
+3. Place and edit configuration Json file in this one. <br />
 Example can be found here: [example/config.json](./example/config.json).
 4. Specify the config file when running program.
-```bash
-python main.py -c data/2011-09-06/config.json
-```
+    ```bash
+    python main.py -c data/2011-09-06/config.json
+    ```
 
 
 
